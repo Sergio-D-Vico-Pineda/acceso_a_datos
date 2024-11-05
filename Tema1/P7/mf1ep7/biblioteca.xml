@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<biblioteca>
+    <libro>
+        <titulo>El Quijote</titulo>
+        <autor>Miguel de Cervantes</autor>
+        <año>1605</año>
+    </libro>
+    <libro>
+        <titulo>Cien Años de Soledad</titulo>
+        <autor>Gabriel García Márquez</autor>
+        <año>1967</año>
+    </libro>
+    <libro>
+        <titulo>1984</titulo>
+        <autor>George Orwell</autor>
+        <año>1949</año>
+    </libro>
+</biblioteca>
