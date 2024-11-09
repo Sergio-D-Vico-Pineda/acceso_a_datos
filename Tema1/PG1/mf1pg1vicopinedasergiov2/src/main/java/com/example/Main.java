@@ -170,7 +170,6 @@ public class Main {
 
     static public Product SearchProduct2(int id, String filepath) {
         try {
-
             BufferedReader br = new BufferedReader(new FileReader(filepath));
             String line = br.readLine();
             br.close();
