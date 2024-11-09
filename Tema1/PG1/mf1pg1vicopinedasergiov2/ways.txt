@@ -1,0 +1,3 @@
+Voy a calcular cuanta distancia tiene que saltar, contando los caracteres del nombre y de los valores
+
+No voy a mantener el mismo formato para todos los valores y saltar siempre un mismo número

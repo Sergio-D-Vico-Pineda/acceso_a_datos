@@ -6,13 +6,15 @@ import java.util.*;
 public class Main {
     static Scanner input = new Scanner(System.in);
     static String mainFilepath = "default.txt";
+    static int id = 0;
 
     public static void main(String[] args) {
         int option = -1;
         String color = "\u001B[31m";
 
         System.out.println(" ");
-        ChangeFilepath();
+        CountID(mainFilepath);
+        /* ChangeFilepath(); */
 
         do {
             color = new File(mainFilepath).exists() ? "\u001B[32m" : "\u001B[31m";
@@ -23,6 +25,7 @@ public class Main {
             System.out.println();
             System.out.println("-------- Menú --------");
             System.out.println("Archivo: " + color + mainFilepath + "\u001B[0m");
+            System.out.println("ID: " + id);
             System.out.println();
             System.out.println(" 1 - Crear producto.");
             System.out.println(" 2 - Leer todos los productos. (Acceso secuencial)");
@@ -49,7 +52,7 @@ public class Main {
                 case 1 -> CreateProduct(); // Crear producto
                 case 2 -> ShowProducts(); // Leer todos los productos
                 case 3 -> InfoProduct(); // Buscar producto por id
-                case 4 -> UpdatePrice(); // Actualizar precio de un producto
+                case 4 -> UpdatePrice2(); // Actualizar precio de un producto
                 case 5 -> ChangeFilepath(); // Cambiar la ruta del archivo
                 default -> InvalidOption();
             }
@@ -63,66 +66,23 @@ public class Main {
         } while (option != 0);
     }
 
-    static void readFile2(String filepath) {
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(filepath));
-
-            String line;
-            while ((line = br.readLine()) != null) {
-                System.out.println(line);
-            }
-
-            br.close();
-
-        } catch (FileNotFoundException e) {
-            System.out.println("\u001B[31m" + "Error al leer el archivo:" + "\u001B[0m" + " El archivo '" + filepath
-                    + "' no existe.");
-
-        } catch (IOException e) {
-            System.out.println("Error al leer el archivo: " + e.getMessage());
-        }
-    }
-
-    static ArrayList<String> readFile(String filepath) {
-        ArrayList<String> lines = new ArrayList<>();
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(filepath));
-
-            String line;
-            while ((line = br.readLine()) != null) {
-                lines.add(line);
-            }
-
-            br.close();
-
-        } catch (FileNotFoundException e) {
-            System.out.println("\u001B[31m" + "Error al leer el archivo:" + "\u001B[0m" + " El archivo '" + filepath
-                    + "' no existe.");
-
-        } catch (IOException e) {
-            System.out.println("Error al leer el archivo: " + e.getMessage());
-        }
-        return lines;
-    }
-
     static boolean readFileClean(String filepath) {
         boolean printed = false;
         try {
             BufferedReader br = new BufferedReader(new FileReader(filepath));
+            String line = br.readLine();
+            br.close();
 
-            String line;
-            ArrayList<Product> a;
-            while ((line = br.readLine()) != null) {
-                a = Product.fromString(line);
-                for (int i = 0; i < a.size(); i++) {
-                    System.out.println(a.get(i).showInfo());
-                }
-                System.out.println();
-                printed = true;
+            Product a = null;
+            String[] products = line.split(";");
+
+            for (int i = 0; i < products.length; i++) {
+                a = Product.fromString(products[i]);
+                System.out.println(a.showInfo());
             }
 
-            br.close();
+            System.out.println();
+            printed = true;
 
         } catch (FileNotFoundException e) {
             System.out.println("\u001B[31m" + "Error al leer el archivo:" + "\u001B[0m" + " El archivo '" + filepath
@@ -134,6 +94,7 @@ public class Main {
         return printed;
     }
 
+    // Actualizar función
     static ArrayList<Product> loadFile(String filepath) {
         ArrayList<Product> products = new ArrayList<>();
         try {
@@ -207,6 +168,26 @@ public class Main {
         }
     }
 
+    static public Product SearchProduct2(int id, String filepath) {
+        try {
+
+            BufferedReader br = new BufferedReader(new FileReader(filepath));
+            String line = br.readLine();
+            br.close();
+
+            Product a = null;
+            String[] products = line.split(";");
+
+            for (int i = 0; i < products.length; i++) {
+                a = Product.fromString(products[i]);
+                System.out.println(a.showInfo());
+            }
+        } catch (Exception e) {
+            System.out.println("\u001B[31m" + "Producto no encontrado. Id no encontrado." + "\u001B[0m");
+        }
+        return null;
+    }
+
     static public void CreateProduct() {
         System.out.println("Creando nuevo producto.");
         System.out.println("------------------------------");
@@ -246,9 +227,7 @@ public class Main {
             input.nextLine();
         } while (quantity < 0);
 
-        // String[] data = new String[] {new Product(name, price, quantity).toString()};
-
-        writeFile(mainFilepath, true, new String[] { new Product(name, price, quantity).toString() });
+        writeFile(mainFilepath, true, new String[] { new Product(id++, name, price, quantity).toString() });
 
         System.out.println("");
         System.out.println("\u001B[32m" + "Producto creado correctamente." + "\u001B[0m");
@@ -346,7 +325,23 @@ public class Main {
         }
     }
 
+    static public void CountID(String filepath) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filepath));
+            String line = br.readLine();
+            br.close();
+
+            id = line.split(";").length;
+
+        } catch (Exception e) {
+            System.out.println("\u001B[31m" + "Error al leer el archivo:" + "\u001B[0m" + " El archivo '" + filepath
+                    + "' no existe.");
+        }
+    }
+
     static public void UpdatePrice2() {
-        
+        System.out.println("Actualizando precio de un producto: v2");
+        System.out.println("-----------------------------------");
+
     }
 }
