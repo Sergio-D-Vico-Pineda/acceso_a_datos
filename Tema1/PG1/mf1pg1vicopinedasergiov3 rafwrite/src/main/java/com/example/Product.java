@@ -41,9 +41,13 @@ public class Product {
         String quantity = String.format("%-5d", this.quantity);
         return id + "-| Nombre: " + name + " | Precio: " + price + " | Cantidad: " + quantity;
     }
-
+    
     @Override
     public String toString() {
+        String id = String.format("%-3d", this.id);
+        String name = String.format("%-15s", this.name);
+        String price = String.format("%-10.2f", this.price);
+        String quantity = String.format("%-5d", this.quantity);
         return id + ":" + name + ":" + price + ":" + quantity + ";";
     }
 

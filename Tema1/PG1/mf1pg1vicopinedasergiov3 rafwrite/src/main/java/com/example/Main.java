@@ -94,28 +94,6 @@ public class Main {
         return printed;
     }
 
-    // Actualizar función
-    static ArrayList<Product> loadFile(String filepath) {
-        ArrayList<Product> products = new ArrayList<>();
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(filepath));
-
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                System.out.println(line);
-                /* products.add(Product.fromString(line)); */
-            }
-
-            br.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("\u001B[31m" + "Error al leer el archivo:" + "\u001B[0m" + " El archivo '" + filepath
-                    + "' no existe.");
-        } catch (IOException e) {
-            System.out.println("Error al leer el archivo: " + e.getMessage());
-        }
-        return products;
-    }
-
     static void writeFile(String filepath, boolean appe, String[] text) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(filepath, appe));
@@ -159,13 +137,52 @@ public class Main {
         System.out.println("La nueva ruta es: " + mainFilepath);
     }
 
-    static public Product SearchProduct(int id, ArrayList<Product> products) {
-        try {
-            return products.get(id - 1);
-        } catch (Exception e) {
-            System.out.println("\u001B[31m" + "Producto no encontrado. Id no encontrado." + "\u001B[0m");
-            return null;
-        }
+    static public void CreateProduct() {
+        System.out.println("Creando nuevo producto.");
+        System.out.println("------------------------------");
+        System.out.println("");
+        System.out.println("MÁXIMO DE CARACTERES: 15");
+        System.out.print("Por favor, introduce el NOMBRE del nuevo producto: ");
+        String name = input.nextLine();
+        double price = -1;
+        int quantity = -1;
+
+        do {
+            System.out.println("MÁXIMO DE CARACTERES: 9 con los decimales.");
+            System.out.print("Por favor, introduce el PRECIO del nuevo producto: ");
+            try {
+                price = input.nextDouble();
+            } catch (Exception e) {
+            }
+
+            if (price < 0.0 || price > 9999999.99) {
+                System.out.println("\u001B[31m" + "Precio inválido." + "\u001B[0m");
+                System.out.println("");
+            }
+
+            input.nextLine();
+        } while (price < 0.0 || price > 9999999.99);
+
+        do {
+            System.out.println("MÁXIMO DE CARACTERES: 5");
+            System.out.print("Por favor, introduce la CANTIDAD del nuevo producto: ");
+            try {
+                quantity = input.nextInt();
+            } catch (Exception e) {
+            }
+
+            if (quantity < 0 || quantity > 99999) {
+                System.out.println("\u001B[31m" + "Cantidad inválida." + "\u001B[0m");
+                System.out.println("");
+            }
+
+            input.nextLine();
+        } while (quantity < 0 || quantity > 99999);
+
+        writeFile(mainFilepath, true, new String[] { new Product(id++, name, price, quantity).toString() });
+
+        System.out.println("");
+        System.out.println("\u001B[32m" + "Producto creado correctamente." + "\u001B[0m");
     }
 
     //  funcion para obtener la longitud de un producto
@@ -239,95 +256,20 @@ public class Main {
             System.out.println(product.showInfo());
     }
 
-    static public void CreateProduct() {
-        System.out.println("Creando nuevo producto.");
-        System.out.println("------------------------------");
-        System.out.print("Por favor, introduce el NOMBRE del nuevo producto: ");
-        String name = input.nextLine();
-        double price = -1;
-
-        do {
-            System.out.print("Por favor, introduce el PRECIO del nuevo producto: ");
-            try {
-                price = input.nextDouble();
-            } catch (Exception e) {
-            }
-
-            if (price < 0.0) {
-                System.out.println("\u001B[31m" + "Precio inválido." + "\u001B[0m");
-                System.out.println("");
-            }
-
-            input.nextLine();
-        } while (price < 0.0);
-
-        int quantity = -1;
-
-        do {
-            System.out.print("Por favor, introduce la CANTIDAD del nuevo producto: ");
-            try {
-                quantity = input.nextInt();
-            } catch (Exception e) {
-            }
-
-            if (quantity < 0) {
-                System.out.println("\u001B[31m" + "Cantidad inválida." + "\u001B[0m");
-                System.out.println("");
-            }
-
-            input.nextLine();
-        } while (quantity < 0);
-
-        writeFile(mainFilepath, true, new String[] { new Product(id++, name, price, quantity).toString() });
-
-        System.out.println("");
-        System.out.println("\u001B[32m" + "Producto creado correctamente." + "\u001B[0m");
-    }
-
     static public void ShowProducts() {
         System.out.println("Mostrando todos los productos:");
         System.out.println("------------------------------");
-        /* readFile2(mainFilepath); */
         if (!readFileClean(mainFilepath)) {
             System.out.println("\u001B[31m" + "No hay productos en el sistema." + "\u001B[0m");
             return;
         }
     }
 
-    static public void InfoProduct() {
-        System.out.println("Mostrando información de un producto:");
-        System.out.println("------------------------------");
-
-        ArrayList<Product> products = loadFile(mainFilepath);
-        if (products.size() == 0) {
-            System.out.println("\u001B[31m" + "No hay productos en el sistema." + "\u001B[0m");
-            return;
-        }
-
-        System.out.println("Hay " + products.size() + " productos en el sistema.");
-        System.out.println("");
-        System.out.print("Por favor, introduce el id del producto: ");
-        int id = -1;
-        try {
-            id = input.nextInt();
-        } catch (Exception e) {
-        }
-
-        input.nextLine();
-
-        System.out.println("");
-
-        Product product = SearchProduct(id, products);
-
-        if (product != null)
-            System.out.println(product.showInfo());
-    }
-
     static public void UpdatePrice() {
         System.out.println("Actualizando precio de un producto:");
         System.out.println("-----------------------------------");
 
-        ArrayList<Product> products = loadFile(mainFilepath);
+        ArrayList<Product> products = new ArrayList<>();
 
         if (products.size() == 0) {
             System.out.println("\u001B[31m" + "No hay productos en el sistema." + "\u001B[0m");
@@ -341,7 +283,7 @@ public class Main {
         input.nextLine();
         System.out.println("");
 
-        Product product = SearchProduct(id, products);
+        Product product = /* SearchProduct(id, products) */ SearchProduct2(id, mainFilepath);
 
         if (product != null) {
             double newprice = -1;
