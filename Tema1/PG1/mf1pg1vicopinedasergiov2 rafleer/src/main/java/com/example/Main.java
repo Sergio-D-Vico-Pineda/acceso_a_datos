@@ -13,7 +13,7 @@ public class Main {
         String color = "\u001B[31m";
 
         System.out.println(" ");
-        CountID(mainFilepath);
+        id = CountProducts(mainFilepath);
         /* ChangeFilepath(); */
 
         do {
@@ -51,7 +51,7 @@ public class Main {
                 case 0 -> ExitProgram();
                 case 1 -> CreateProduct(); // Crear producto
                 case 2 -> ShowProducts(); // Leer todos los productos
-                case 3 -> InfoProduct(); // Buscar producto por id
+                case 3 -> InfoProduct2(); // Buscar producto por id
                 case 4 -> UpdatePrice2(); // Actualizar precio de un producto
                 case 5 -> ChangeFilepath(); // Cambiar la ruta del archivo
                 default -> InvalidOption();
@@ -168,23 +168,75 @@ public class Main {
         }
     }
 
+    //  funcion para obtener la longitud de un producto
+    static private int getLength(Product a) {
+        return a.getName().length() + String.valueOf(a.getPrice()).length()
+                + String.valueOf(a.getQuantity()).length() + String.valueOf(a.getId()).length() + 3;
+    }
+
     static public Product SearchProduct2(int id, String filepath) {
+
         try {
+            long pos = 0;
+            int quantity = 1;
+
+            // Leo la unica linea del txt
             BufferedReader br = new BufferedReader(new FileReader(filepath));
             String line = br.readLine();
             br.close();
 
-            Product a = null;
-            String[] products = line.split(";");
+            Product prod = null; // declaro product para iterar
+            String[] products = line.split(";"); // separo la linea en un array para poder obtener las longitudes
+            int i; // declaro i fuera para poder acceder al ultimo producto
 
-            for (int i = 0; i < products.length; i++) {
-                a = Product.fromString(products[i]);
-                System.out.println(a.showInfo());
+            for (i = 0; i < id; i++) { // recorder que i se suma uno al terminar el for lo que permite acceder al ultimo producto
+                prod = Product.fromString(products[i]);
+
+                pos += getLength(prod);
+                /* System.out.println(prod.showInfo()); */
+                /* System.out.println("Posicion: " + pos);
+                System.out.println("Length: " + getLength(prod)); */
+
             }
+            RandomAccessFile raf = new RandomAccessFile(filepath, "rw");
+
+            quantity = Product.fromString(products[i]).getName().length(); // consigo la longitud del nombre a imprimir
+            byte[] bytes = new byte[quantity]; // declaro el array con la longitud del nombre para imprimir
+            raf.seek(pos + id + 2); // le sumo el número del id para saltar los separadores ; entre productos y 2 para quedarme en el inicio del nombre
+            raf.read(bytes, 0, quantity); // leo y guardo los bytes
+
+            System.out.println("Posicion: " + pos + " Longitud: " + quantity);
+            System.out.println("Nombre del producto: " + new String(bytes));
+            raf.close();
+
         } catch (Exception e) {
             System.out.println("\u001B[31m" + "Producto no encontrado. Id no encontrado." + "\u001B[0m");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         return null;
+    }
+
+    static public void InfoProduct2() {
+        System.out.println("Mostrando información de un producto:");
+        System.out.println("------------------------------");
+
+        System.out.println("");
+        System.out.print("Por favor, introduce el id del producto: ");
+        int id = -1;
+        try {
+            id = input.nextInt();
+        } catch (Exception e) {
+        }
+
+        input.nextLine();
+
+        System.out.println("");
+
+        Product product = SearchProduct2(id, mainFilepath);
+
+        if (product != null)
+            System.out.println(product.showInfo());
     }
 
     static public void CreateProduct() {
@@ -324,18 +376,20 @@ public class Main {
         }
     }
 
-    static public void CountID(String filepath) {
+    static public int CountProducts(String filepath) {
+        int count = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader(filepath));
             String line = br.readLine();
             br.close();
 
-            id = line.split(";").length;
+            count = line.split(";").length;
 
         } catch (Exception e) {
             System.out.println("\u001B[31m" + "Error al leer el archivo:" + "\u001B[0m" + " El archivo '" + filepath
                     + "' no existe.");
         }
+        return count;
     }
 
     static public void UpdatePrice2() {

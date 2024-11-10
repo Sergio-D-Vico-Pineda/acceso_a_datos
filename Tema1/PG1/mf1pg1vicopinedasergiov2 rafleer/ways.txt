@@ -1,0 +1,8 @@
+Voy a calcular cuanta distancia tiene que saltar, contando los caracteres del nombre y de los valores 
+para leer
+Problema: a la hora de reescribir no hay forma de mover los demás caracteres
+----
+
+Voy a mantener el mismo formato para todos los valores y saltar siempre un mismo número
+para reescribir
+Problema: 
