@@ -191,7 +191,7 @@ public class Main {
                 + String.valueOf(a.getQuantity()).length() + String.valueOf(a.getId()).length() + 3;
     }
 
-    static public Product SearchProduct2(int id, String filepath) {
+    static public void SearchProduct2(int id, String filepath) {
 
         try {
             long pos = 0;
@@ -231,7 +231,6 @@ public class Main {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-        return null;
     }
 
     static public void InfoProduct2() {
@@ -250,10 +249,10 @@ public class Main {
 
         System.out.println("");
 
-        Product product = SearchProduct2(id, mainFilepath);
+        SearchProduct2(id, mainFilepath);
 
-        if (product != null)
-            System.out.println(product.showInfo());
+        /*        if (product != null) */
+        /*            System.out.println(product.showInfo()); */
     }
 
     static public void ShowProducts() {
@@ -263,6 +262,15 @@ public class Main {
             System.out.println("\u001B[31m" + "No hay productos en el sistema." + "\u001B[0m");
             return;
         }
+    }
+
+    static public void UpdatePrice2() {
+        System.out.println("Actualizando precio de un producto: v2");
+        System.out.println("-----------------------------------");
+        System.out.println("Por favor, introduce el id del producto: ");
+        int id = input.nextInt();
+        input.nextLine();
+        System.out.println("");
     }
 
     static public void UpdatePrice() {
@@ -283,7 +291,7 @@ public class Main {
         input.nextLine();
         System.out.println("");
 
-        Product product = /* SearchProduct(id, products) */ SearchProduct2(id, mainFilepath);
+        Product product = /* SearchProduct(id, products) */ new Product(id, mainFilepath, id, id);
 
         if (product != null) {
             double newprice = -1;
@@ -334,9 +342,4 @@ public class Main {
         return count;
     }
 
-    static public void UpdatePrice2() {
-        System.out.println("Actualizando precio de un producto: v2");
-        System.out.println("-----------------------------------");
-
-    }
 }
