@@ -192,14 +192,18 @@ public class Main {
         Product prod = null;
         try {
             RandomAccessFile raf = new RandomAccessFile(filepath, "rw");
+            int prodLength = 36; // 36 la longitud de una linea de producto
+            // Multiplico el id por la longitud de cada producto para quedar en la posicion correcta
+            long pos = id * prodLength;
 
-            quantity = Product.fromString(products[i]).getName().length(); // consigo la longitud del nombre a imprimir
-            byte[] bytes = new byte[quantity]; // declaro el array con la longitud del nombre para imprimir
-            raf.seek(pos + id + 2); // le sumo el número del id para saltar los separadores ; entre productos y 2 para quedarme en el inicio del nombre
-            raf.read(bytes, 0, quantity); // leo y guardo los bytes
+            pos += id; // le sumo el número del id para saltar los separadores ; entre productos
 
-            System.out.println("Posicion: " + pos + " Longitud: " + quantity);
-            System.out.println("Nombre del producto: " + new String(bytes));
+            byte[] bytes = new byte[prodLength]; // declaro el array con la longitud del nombre para imprimirç
+            raf.seek(pos);
+            raf.read(bytes, 0, prodLength); // leo y guardo los bytes
+
+            prod = Product.fromString(new String(bytes));
+            System.out.println("Posicion: " + pos);
             raf.close();
 
         } catch (Exception e) {
@@ -207,6 +211,7 @@ public class Main {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+        return prod;
     }
 
     static public void InfoProduct2() {
@@ -219,16 +224,16 @@ public class Main {
         try {
             id = input.nextInt();
         } catch (Exception e) {
+            System.out.println("Opción inválida.");
         }
 
         input.nextLine();
-
         System.out.println("");
 
-        SearchProduct2(id, mainFilepath);
+        Product product = SearchProduct2(id, mainFilepath);
 
-        /*        if (product != null) */
-        /*            System.out.println(product.showInfo()); */
+        if (product != null)
+            System.out.println(product.showInfo());
     }
 
     static public void ShowProducts() {
