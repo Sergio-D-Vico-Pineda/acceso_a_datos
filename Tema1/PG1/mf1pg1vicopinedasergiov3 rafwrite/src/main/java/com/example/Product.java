@@ -7,22 +7,6 @@ public class Product {
     int quantity;
     int id;
 
-    public String getName() {
-        return name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public int getId() {
-        return id;
-    }
-
     public Product(int id, String name, double price, int amount) {
         this.name = name;
         this.price = price;

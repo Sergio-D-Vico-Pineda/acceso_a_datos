@@ -187,36 +187,10 @@ public class Main {
         System.out.println("\u001B[32m" + "Producto creado correctamente." + "\u001B[0m");
     }
 
-    //  funcion para obtener la longitud de un producto
-    static private int getLength(Product a) {
-        return a.getName().length() + String.valueOf(a.getPrice()).length()
-                + String.valueOf(a.getQuantity()).length() + String.valueOf(a.getId()).length() + 3;
-    }
+    static public Product SearchProduct2(int id, String filepath) {
 
-    static public void SearchProduct2(int id, String filepath) {
-
+        Product prod = null;
         try {
-            long pos = 0;
-            int quantity = 1;
-
-            // Leo la unica linea del txt
-            BufferedReader br = new BufferedReader(new FileReader(filepath));
-            String line = br.readLine();
-            br.close();
-
-            Product prod = null; // declaro product para iterar
-            String[] products = line.split(";"); // separo la linea en un array para poder obtener las longitudes
-            int i; // declaro i fuera para poder acceder al ultimo producto
-
-            for (i = 0; i < id; i++) { // recorder que i se suma uno al terminar el for lo que permite acceder al ultimo producto
-                prod = Product.fromString(products[i]);
-
-                pos += getLength(prod);
-                /* System.out.println(prod.showInfo()); */
-                /* System.out.println("Posicion: " + pos);
-                System.out.println("Length: " + getLength(prod)); */
-
-            }
             RandomAccessFile raf = new RandomAccessFile(filepath, "rw");
 
             quantity = Product.fromString(products[i]).getName().length(); // consigo la longitud del nombre a imprimir
