@@ -29,8 +29,8 @@ public class Main {
             System.out.println();
             System.out.println(" 1 - Crear producto.");
             System.out.println(" 2 - Leer todos los productos. (Acceso secuencial)");
-            System.out.println(" 3 - Buscar producto por id.");
-            System.out.println(" 4 - Actualizar precio de un producto.");
+            System.out.println(" 3 - Buscar producto por id. (Acceso aleatorio)");
+            System.out.println(" 4 - Actualizar precio de un producto. (Acceso aleatorio)");
             System.out.println(" 5 - Cambiar la ruta del archivo.");
             System.out.println();
             System.out.println(" 0 - Salir del programa.");
