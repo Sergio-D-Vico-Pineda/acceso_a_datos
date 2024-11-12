@@ -252,33 +252,25 @@ public class Main {
         int id = input.nextInt();
         input.nextLine();
         System.out.println("");
-    }
 
-    static public void UpdatePrice() {
-        System.out.println("Actualizando precio de un producto:");
-        System.out.println("-----------------------------------");
+        try {
+            RandomAccessFile raf = new RandomAccessFile(mainFilepath, "rw");
+            int prodLength = 36; // 36 la longitud de una linea de producto
+            // Multiplico el id por la longitud de cada producto para quedar en la posicion correcta
+            long pos = id * prodLength;
 
-        ArrayList<Product> products = new ArrayList<>();
+            pos += id; // le sumo el número del id para saltar los separadores ; entre productos
 
-        if (products.size() == 0) {
-            System.out.println("\u001B[31m" + "No hay productos en el sistema." + "\u001B[0m");
-            return;
-        }
+            byte[] bytes = new byte[prodLength]; // declaro el array con la longitud del nombre para imprimirç
+            raf.seek(pos);
+            raf.read(bytes, 0, prodLength); // leo y guardo los bytes
 
-        System.out.println("Hay " + products.size() + " productos en el sistema.");
-        System.out.println("");
-        System.out.println("Por favor, introduce el id del producto: ");
-        int id = input.nextInt();
-        input.nextLine();
-        System.out.println("");
-
-        Product product = /* SearchProduct(id, products) */ new Product(id, mainFilepath, id, id);
-
-        if (product != null) {
-            double newprice = -1;
+            Product prod = Product.fromString(new String(bytes));
+            System.out.println("Posicion: " + pos);
             System.out.println("Actualizando el precio del siguiente producto: ");
-            System.out.println(product.showInfo());
+            System.out.println(prod.showInfo());
             System.out.println("");
+            double newprice = -1;
             do {
                 System.out.println("Introduce el nuevo precio:");
                 try {
@@ -292,19 +284,17 @@ public class Main {
                 input.nextLine();
             } while (newprice < 0);
 
-            product.updatePrice(newprice);
+            pos += 20; // le sumo 20 para saltar a los decimales del precio
+            raf.seek(pos);
+            raf.writeUTF(Double.toString(newprice));
 
-            String[] lines = new String[products.size()];
-
-            for (int i = 0; i < products.size(); i++) {
-                lines[i] = products.get(i).toString();
-            }
-
-            writeFile(mainFilepath, false, lines);
-
-            System.out.println("");
-            System.out.println("\u001B[32m" + "Precio del producto actualizado correctamente." + "\u001B[0m");
+            raf.close();
+        } catch (Exception e) {
+            System.out.println("\u001B[31m" + "Producto no encontrado. Id no encontrado." + "\u001B[0m");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
+
     }
 
     static public int CountProducts(String filepath) {
