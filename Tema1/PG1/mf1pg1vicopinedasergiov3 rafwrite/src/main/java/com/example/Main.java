@@ -78,11 +78,13 @@ public class Main {
 
             for (int i = 0; i < products.length; i++) {
                 a = Product.fromString(products[i]);
-                System.out.println(a.showInfo());
+                if (a != null) {
+                    System.out.println(a.showInfo());
+                    printed = true;
+                }
             }
 
             System.out.println();
-            printed = true;
 
         } catch (FileNotFoundException e) {
             System.out.println("\u001B[31m" + "Error al leer el archivo:" + "\u001B[0m" + " El archivo '" + filepath
