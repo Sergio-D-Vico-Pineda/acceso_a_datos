@@ -75,11 +75,11 @@ public class Main {
 
     static public boolean FindStudent(String nameStudent) {
         // Deberia devolver el objeto estudiante
-        for (Reserva student : hotel) {
+/*         for (Reserva student : hotel) {
             if (student.getName().equals(nameStudent)) {
                 return true;
             }
-        }
+        } */
         return false;
     }
 
@@ -114,8 +114,8 @@ public class Main {
 
         } while (years <= 0);
 
-        Reserva newStudent = new Reserva(name, years);
-        hotel.add(newStudent);
+        /* Reserva newStudent = new Reserva(name, years);
+        hotel.add(newStudent); */
     }
 
     static public void AddGrades() {
@@ -136,17 +136,17 @@ public class Main {
             return;
         }
 
-        for (Reserva student : hotel) {
+        /* for (Reserva student : hotel) {
             if (student.getName().equals(txtNameString)) {
                 tempStudent = student;
                 break;
             }
-        }
+        } */
 
         do {
             try {
                 System.out.println("Calificación a añadir: ");
-                moreInput = tempStudent.addGrade(input.nextDouble());
+                /* moreInput = tempStudent.addGrade(input.nextDouble()); */
                 if (!moreInput) {
                     input.nextLine();
                     System.out.println("Calificación añadida. ¿Quieres añadir más? Pon S para continuar.");
@@ -197,12 +197,12 @@ public class Main {
             return;
         }
 
-        for (Reserva student : hotel) {
+        /* for (Reserva student : hotel) {
             if (student.getName().equals(nameStudent)) {
                 student.showInfo();
                 break;
             }
-        }
+        } */
     }
 
     static public void StudentMoreAverage() {
@@ -233,13 +233,13 @@ public class Main {
 
         System.out.println("");
 
-        for (Reserva student : hotel) {
+        /* for (Reserva student : hotel) {
             if (student.getAverage() > minGrade) {
                 student.showInfo();
                 System.out.println(" ");
                 thereIsStudent = true;
             }
-        }
+        } */
 
         if (!thereIsStudent) {
             System.err.println("\u001B[31m" + "No hay estudiantes con un promedio superior al indicado." + "\u001B[0m");
