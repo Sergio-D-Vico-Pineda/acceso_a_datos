@@ -1,7 +1,5 @@
 package ejercicioprueba;
 
-import ejercicioprueba.Reserva;
-
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -9,14 +7,14 @@ import java.util.Scanner;
 public class Main {
 
     static int option;
-    static ArrayList<Reserva> hotel = new ArrayList<>();
+    static ArrayList<Student> hotel = new ArrayList<>();
     static Scanner input = new Scanner(System.in);
     static Scanner pause = new Scanner(System.in);
 
     public static void main(String[] args) {
 
         /*
-         * hotel.add(new Reserva("Sergio", 22));
+         * hotel.add(new Student("Sergio", 22));
          * hotel.get(0).addGrade(10);
          * hotel.get(0).addGrade(5.5);
          * hotel.get(0).addGrade(3.2);
@@ -114,13 +112,13 @@ public class Main {
 
         } while (years <= 0);
 
-        /* Reserva newStudent = new Reserva(name, years);
-        hotel.add(newStudent); */
+        Reserva newStudent = new Reserva(name, years);
+        hotel.add(newStudent);
     }
 
     static public void AddGrades() {
 
-        Reserva tempStudent = null;
+        Student tempStudent = null;
         boolean moreInput = true;
 
         if (hotel.size() == 0) {
@@ -136,7 +134,7 @@ public class Main {
             return;
         }
 
-        /* for (Reserva student : hotel) {
+        for (Reserva student : hotel) {
             if (student.getName().equals(txtNameString)) {
                 tempStudent = student;
                 break;
@@ -174,7 +172,7 @@ public class Main {
             return;
         }
 
-        for (Reserva student : hotel) {
+        for (Student student : hotel) {
             student.showInfo();
             System.out.println(" ");
         }
@@ -197,7 +195,7 @@ public class Main {
             return;
         }
 
-        /* for (Reserva student : hotel) {
+        for (Reserva student : hotel) {
             if (student.getName().equals(nameStudent)) {
                 student.showInfo();
                 break;
@@ -239,7 +237,7 @@ public class Main {
                 System.out.println(" ");
                 thereIsStudent = true;
             }
-        } */
+        }  */
 
         if (!thereIsStudent) {
             System.err.println("\u001B[31m" + "No hay estudiantes con un promedio superior al indicado." + "\u001B[0m");
