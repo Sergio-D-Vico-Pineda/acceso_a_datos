@@ -112,13 +112,13 @@ public class Main {
 
         } while (years <= 0);
 
-        Reserva newStudent = new Reserva(name, years);
-        hotel.add(newStudent);
+        /* Reserva newStudent = new Reserva(name, years);
+        hotel.add(newStudent); */
     }
 
     static public void AddGrades() {
 
-        Student tempStudent = null;
+        /* Student tempStudent = null; */
         boolean moreInput = true;
 
         if (hotel.size() == 0) {
@@ -134,7 +134,7 @@ public class Main {
             return;
         }
 
-        for (Reserva student : hotel) {
+        /* for (Reserva student : hotel) {
             if (student.getName().equals(txtNameString)) {
                 tempStudent = student;
                 break;
@@ -195,12 +195,12 @@ public class Main {
             return;
         }
 
-        for (Reserva student : hotel) {
+        /* for (Reserva student : hotel) {
             if (student.getName().equals(nameStudent)) {
                 student.showInfo();
                 break;
             }
-        } */
+        }  */
     }
 
     static public void StudentMoreAverage() {
