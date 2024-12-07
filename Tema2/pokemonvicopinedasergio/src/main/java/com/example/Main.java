@@ -839,10 +839,16 @@ public class Main {
             PreparedStatement pstmt = conn.prepareStatement(eliminarPokemonSQL);
             pstmt.setInt(1, id_ent);
             pstmt.setInt(2, id_pok);
-            pstmt.executeUpdate();
 
-            System.out.println(
-                    "Pokémon " + nombre_pokemon + " ELIMINADO del entrenador " + nombre_entrenador + " con exito.");
+            if (pstmt.executeUpdate() == 0) {
+                System.out.println(
+                        "El entrenador '" + nombre_entrenador + "' NO tiene ASIGNADO el pokémon '" + nombre_pokemon + "'.");
+                System.out.println("No se ha realizado ninguna modificación.");
+            } else {
+                System.out.println(
+                        "Pokémon '" + nombre_pokemon + "' DESASIGNADO del entrenador '" + nombre_entrenador
+                                + "' con exito.");
+            }
         } catch (SQLException e) {
             System.out.println("Error al eliminar pokémon: " + e.getMessage());
         }
@@ -1000,3 +1006,10 @@ public class Main {
 
     }
 }
+
+/*
+ * Identify the exception
+ * System.out.println("-----------------------------------");
+ * System.out.println(e.getClass());
+ * System.out.println("-----------------------------------");
+ */
