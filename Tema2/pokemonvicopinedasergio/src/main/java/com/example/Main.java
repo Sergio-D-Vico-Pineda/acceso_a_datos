@@ -44,7 +44,7 @@ public class Main {
             System.out.println();
             System.out.println("Pokémons:");
             System.out.println("1. Agregar pokémon.");
-            System.out.println("2. Listar pokemones.");
+            System.out.println("2. Listar pokémons.");
             System.out.println("3. Actualizar pokémon.");
             System.out.println("4. Eliminar pokémon.");
             System.out.println();
@@ -55,8 +55,8 @@ public class Main {
             System.out.println("8. Eliminar entrenador.");
             System.out.println();
             System.out.println("Opciones:");
-            System.out.println("9. Asignar pokémon a un entrenador. PTT");
-            System.out.println("10. Desasignar pokémon a un entrenador. PTT");
+            System.out.println("9. Asignar pokémon a un entrenador.");
+            System.out.println("10. Desasignar pokémon a un entrenador.");
             System.out.println("11. Registrar una nueva batalla entre dos entrenadores. PTT");
             System.out.println("12. Ver el historial de batallas. WIP-PTT");
             System.out.println();
@@ -218,7 +218,7 @@ public class Main {
             pstmt.setInt(4, nivel);
             pstmt.executeUpdate();
 
-            System.out.println("Pokémon agregado con exito.");
+            System.out.println("Pokémon '" + nombre + "' agregado con exito.");
         } catch (SQLException e) {
             System.out.println("Error al agregar pokémon: " + e.getMessage());
         }
@@ -238,11 +238,11 @@ public class Main {
                 String tipo_sec = rs.getString("tipo_secundario");
                 int nivel = rs.getInt("nivel");
 
-                System.out.println("ID: " + id + ", Nombre: " + nombre +
-                        ", Tipo principal: " + tipo + ", Tipo secundario: " + tipo_sec + ", Nivel: " + nivel);
+                System.out.println("ID: " + id + " | Nombre: " + nombre +
+                        " | Tipo principal: " + tipo + " | Tipo secundario: " + tipo_sec + " | Nivel: " + nivel);
             }
         } catch (SQLException e) {
-            System.out.println("Error al leer pokemones: " + e.getMessage());
+            System.out.println("Error al leer pokémons: " + e.getMessage());
         }
     }
 
@@ -255,7 +255,7 @@ public class Main {
 
         do {
             try {
-                System.out.print("Ingrese el id del pokémon para actualizar: ");
+                System.out.print("Ingrese el id del pokémon para ACTUALIZAR: ");
                 id = input.nextInt();
                 input.nextLine();
             } catch (InputMismatchException e) {
@@ -367,7 +367,7 @@ public class Main {
 
         do {
             try {
-                System.out.print("Ingrese el id del pokémon para eliminar: ");
+                System.out.print("Ingrese el id del pokémon para ELIMINAR: ");
                 id = input.nextInt();
                 input.nextLine();
             } catch (InputMismatchException e) {
@@ -481,7 +481,7 @@ public class Main {
             pstmt.setString(2, ciudad);
             pstmt.executeUpdate();
 
-            System.out.println("Entrenador agregado con exito.");
+            System.out.println("Entrenador '" + nombre + "' agregado con exito.");
         } catch (SQLException e) {
             System.out.println("Error al agregar entrenador: " + e.getMessage());
         }
@@ -504,7 +504,7 @@ public class Main {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error al leer pokemones: " + e.getMessage());
+            System.out.println("Error al leer pokémons: " + e.getMessage());
         }
     }
 
@@ -515,7 +515,7 @@ public class Main {
 
         do {
             try {
-                System.out.print("Ingrese el id del entrenador para actualizar: ");
+                System.out.print("Ingrese el id del entrenador para ACTUALIZAR: ");
                 id = input.nextInt();
                 input.nextLine();
             } catch (InputMismatchException e) {
@@ -594,7 +594,7 @@ public class Main {
 
         do {
             try {
-                System.out.print("Ingrese el id del entrenador para eliminar: ");
+                System.out.print("Ingrese el id del entrenador para ELIMINAR: ");
                 id = input.nextInt();
                 input.nextLine();
             } catch (InputMismatchException e) {
@@ -662,7 +662,6 @@ public class Main {
 
     }
 
-    // PENDING TO TEST
     private static void asignarPokemonAEntrenador() {
         int id_ent = 0;
         int id_pok = 0;
@@ -672,7 +671,7 @@ public class Main {
         do {
             try {
 
-                System.out.print("Ingrese el id del entrenador para asignarle un pokémon: ");
+                System.out.print("Ingrese el id del entrenador para ASIGNARLE un pokémon: ");
                 id_ent = input.nextInt();
                 input.nextLine();
             } catch (InputMismatchException e) {
@@ -700,7 +699,7 @@ public class Main {
 
         do {
             try {
-                System.out.print("Ingrese el id del pokémon para asignarlo al entrenador: ");
+                System.out.print("Ingrese el id del pokémon para ASIGNARLO al entrenador: ");
                 id_pok = input.nextInt();
                 input.nextLine();
             } catch (InputMismatchException e) {
@@ -726,9 +725,9 @@ public class Main {
             }
         } while (true);
 
-        String asignarPokemonSQL = "INSERT INTO entrenadores_pokemons (id_entrenador, id_pokemon) VALUES (?, ?)";
-        // String asignarPokemonSQL = "INSERT INTO entrenadores_pokemons (id_entrenador,
-        // id_pokemon, fecha) VALUES (?, ?, ?)";
+        String asignarPokemonSQL = "INSERT INTO entrenador_pokemon (entrenador_id, pokemon_id) VALUES (?, ?)";
+        // String asignarPokemonSQL = "INSERT INTO entrenador_pokemon (entrenador_id,
+        // pokemon_id, fecha) VALUES (?, ?, ?)";
         System.out.println("");
 
         try {
@@ -738,13 +737,15 @@ public class Main {
             pstmt.executeUpdate();
 
             System.out.println(
-                    "Pokémon " + nombre_pokemon + " ASIGNADO al entrenador " + nombre_entrenador + " con exito.");
+                    "Pokémon '" + nombre_pokemon + "' ASIGNADO al entrenador '" + nombre_entrenador + "' con exito.");
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.err.println(
+                    "El entrenador '" + nombre_entrenador + "' YA tiene ASIGNADO el pokémon '" + nombre_pokemon + "'.");
         } catch (SQLException e) {
             System.out.println("Error al asignar pokémon: " + e.getMessage());
         }
     }
 
-    // PENDING TO TEST
     private static void eliminarPokemonDeEntrenador() {
         int id_ent = 0;
         int id_pok = 0;
@@ -753,8 +754,7 @@ public class Main {
 
         do {
             try {
-
-                System.out.print("Ingrese el id del entrenador para asignarle un pokémon: ");
+                System.out.print("Ingrese el id del entrenador para DESASIGNARLE un pokémon: ");
                 id_ent = input.nextInt();
                 input.nextLine();
             } catch (InputMismatchException e) {
@@ -782,7 +782,7 @@ public class Main {
 
         do {
             try {
-                System.out.print("Ingrese el id del pokémon para asignarlo al entrenador: ");
+                System.out.print("Ingrese el id del pokémon para DESASIGNARLO del entrenador: ");
                 id_pok = input.nextInt();
                 input.nextLine();
             } catch (InputMismatchException e) {
@@ -808,7 +808,7 @@ public class Main {
             }
         } while (true);
 
-        String eliminarPokemonSQL = "DELETE FROM entrenadores_pokemons WHERE id_entrenador = ? AND id_pokemon = ?";
+        String eliminarPokemonSQL = "DELETE FROM entrenador_pokemon WHERE entrenador_id = ? AND pokemon_id = ?";
         System.out.println("");
 
         try {
@@ -942,7 +942,7 @@ public class Main {
         }
     }
 
-    // PENDING TO TEST
+    // PENDING TO TEST WIP
     private static void verHistorialBatallas() {
         String leerBatallas = "SELECT * FROM batallas";
 
