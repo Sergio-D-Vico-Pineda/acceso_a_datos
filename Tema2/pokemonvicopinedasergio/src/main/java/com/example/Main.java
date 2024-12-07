@@ -2,6 +2,7 @@ package com.example;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
@@ -498,9 +499,32 @@ public class Main {
                 int id = rs.getInt("id");
                 String nombre = rs.getString("nombre");
                 String ciudad_origen = rs.getString("ciudad_origen");
+                ArrayList<String> pokemons = new ArrayList<>();
 
-                System.out.println("ID: " + id + ", Nombre: " + nombre +
-                        ", Ciudad de origen: " + ciudad_origen);
+                Statement stmtpk = conn.createStatement();
+                ResultSet rspk = stmtpk.executeQuery("SELECT * FROM entrenador_pokemon WHERE entrenador_id = " + id);
+                String pkString = "";
+
+                while (rspk.next()) {
+                    int pk_id = rspk.getInt("pokemon_id");
+
+                    Statement stmtpk2 = conn.createStatement();
+                    ResultSet rspk2 = stmtpk2.executeQuery("SELECT * FROM pokemons WHERE id = " + pk_id);
+
+                    while (rspk2.next()) {
+                        String pk_nombre = rspk2.getString("nombre");
+                        pokemons.add(pk_nombre);
+                    }
+                }
+
+                if (!pokemons.isEmpty()) {
+                    pkString = String.join(", ", pokemons);
+                } else {
+                    pkString = "Ninguno";
+                }
+
+                System.out.println("ID: " + id + " | Nombre: " + nombre +
+                        " | Ciudad de origen: " + ciudad_origen + " | Pokémons: " + pkString);
             }
 
         } catch (SQLException e) {
