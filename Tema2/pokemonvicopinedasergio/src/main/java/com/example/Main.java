@@ -242,6 +242,9 @@ public class Main {
                 System.out.println("ID: " + id + " | Nombre: " + nombre +
                         " | Tipo principal: " + tipo + " | Tipo secundario: " + tipo_sec + " | Nivel: " + nivel);
             }
+            if (!rs.next()) {
+                System.out.println("No hay pokémons en la base de datos.");
+            }
         } catch (SQLException e) {
             System.out.println("Error al leer pokémons: " + e.getMessage());
         }
@@ -526,9 +529,12 @@ public class Main {
                 System.out.println("ID: " + id + " | Nombre: " + nombre +
                         " | Ciudad de origen: " + ciudad_origen + " | Pokémons: " + pkString);
             }
+            if (!rs.next()) {
+                System.out.println("No hay entrenadores en la base de datos.");
+            }
 
         } catch (SQLException e) {
-            System.out.println("Error al leer pokémons: " + e.getMessage());
+            System.out.println("Error al leer entrenadores: " + e.getMessage());
         }
     }
 
@@ -842,7 +848,8 @@ public class Main {
 
             if (pstmt.executeUpdate() == 0) {
                 System.out.println(
-                        "El entrenador '" + nombre_entrenador + "' NO tiene ASIGNADO el pokémon '" + nombre_pokemon + "'.");
+                        "El entrenador '" + nombre_entrenador + "' NO tiene ASIGNADO el pokémon '" + nombre_pokemon
+                                + "'.");
                 System.out.println("No se ha realizado ninguna modificación.");
             } else {
                 System.out.println(
