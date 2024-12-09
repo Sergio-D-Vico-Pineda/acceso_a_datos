@@ -1,0 +1,11 @@
+Ingrese el id del entrenador para ELIMINAR: 1
+
+Entrenador a eliminar:
+Nombre: Ana
+Ciudad de origen: a
+
+¿Está seguro de eliminar este entrenador? (s/n): s
+
+Error al eliminar entrenador: Cannot delete or update a parent row: a foreign key constraint fails (`digglets`.`entrenador_pokemon`, CONSTRAINT `entrenador_pokemon_ibfk_1` FOREIGN KEY (`entrenador_id`) REFERENCES `entrenadores` (`id`))
+
+Presiona ENTER para continuar...
