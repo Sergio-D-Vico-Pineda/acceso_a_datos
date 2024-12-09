@@ -62,7 +62,7 @@ public class Main {
             System.out.println("12. Ver el historial de batallas. WIP-PTT");
             System.out.println();
             System.out.println("Opciones avanzadas:");
-            System.out.println("13. Obtener todos los Pokémon de un entrenador específico.*");
+            System.out.println("13. Obtener todos los Pokémon de un entrenador específico.");
             System.out.println("14. Obtener el historial de batallas de un entrenador.*");
             System.out.println("15. Obtener estadísticas de victorias y derrotas de los entrenadores.*");
             System.out.println();
@@ -232,7 +232,10 @@ public class Main {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(leerPokemonesSQL);
 
+            boolean hasPokemons = false;
+
             while (rs.next()) {
+                hasPokemons = true;
                 int id = rs.getInt("id");
                 String nombre = rs.getString("nombre");
                 String tipo = rs.getString("tipo_principal");
@@ -242,7 +245,7 @@ public class Main {
                 System.out.println("ID: " + id + " | Nombre: " + nombre +
                         " | Tipo principal: " + tipo + " | Tipo secundario: " + tipo_sec + " | Nivel: " + nivel);
             }
-            if (!rs.next()) {
+            if (!hasPokemons) {
                 System.out.println("No hay pokémons en la base de datos.");
             }
         } catch (SQLException e) {
@@ -498,7 +501,10 @@ public class Main {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(listaEntrenadoresSQL);
 
+            boolean hasEntrenadores = false;
+
             while (rs.next()) {
+                hasEntrenadores = true;
                 int id = rs.getInt("id");
                 String nombre = rs.getString("nombre");
                 String ciudad_origen = rs.getString("ciudad_origen");
@@ -529,7 +535,7 @@ public class Main {
                 System.out.println("ID: " + id + " | Nombre: " + nombre +
                         " | Ciudad de origen: " + ciudad_origen + " | Pokémons: " + pkString);
             }
-            if (!rs.next()) {
+            if (!hasEntrenadores) {
                 System.out.println("No hay entrenadores en la base de datos.");
             }
 
@@ -1002,7 +1008,67 @@ public class Main {
     }
 
     private static void obtenerPokemonesDeEntrenador() {
+        int id;
+        String nombre;
 
+        do {
+            try {
+                System.out.print("Ingrese el id del entrenador para OBTENER sus pokemons: ");
+                id = input.nextInt();
+                input.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("El id del entrenador no es válido. Debe ser un número.");
+                input.nextLine();
+                continue;
+            }
+
+            String existeEntrenadorSQL = "SELECT * FROM entrenadores WHERE id = ?";
+            try {
+                PreparedStatement pstmt = conn.prepareStatement(existeEntrenadorSQL);
+                pstmt.setInt(1, id);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    nombre = rs.getString("nombre");
+                    break;
+                } else {
+                    System.out.println("El entrenador con id " + id + " no existe.");
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al comprobar si el entrenador existe: " + e.getMessage());
+            }
+        } while (true);
+
+        ArrayList<String> pokemons = new ArrayList<>();
+
+        try {
+
+            Statement stmtpk = conn.createStatement();
+            ResultSet rspk = stmtpk.executeQuery("SELECT * FROM entrenador_pokemon WHERE entrenador_id = " + id);
+            String pkString = "";
+
+            while (rspk.next()) {
+                int pk_id = rspk.getInt("pokemon_id");
+
+                Statement stmtpk2 = conn.createStatement();
+                ResultSet rspk2 = stmtpk2.executeQuery("SELECT * FROM pokemons WHERE id = " + pk_id);
+
+                while (rspk2.next()) {
+                    pokemons.add(rspk2.getString("nombre"));
+                }
+            }
+
+            if (!pokemons.isEmpty()) {
+                pkString = String.join(", ", pokemons);
+            } else {
+                pkString = "Ninguno";
+            }
+
+            System.out.println("Nombre del entrenador: " + nombre);
+            System.out.println("Pokémons: " + pkString);
+        } catch (SQLException e) {
+            System.out.println("Error al obtener los pokemons: " + e.getMessage());
+        }
     }
 
     private static void obtenerHistorialBatallasDeEntrenador() {
