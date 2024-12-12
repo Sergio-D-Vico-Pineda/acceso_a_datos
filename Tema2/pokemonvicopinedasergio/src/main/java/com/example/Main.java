@@ -232,7 +232,10 @@ public class Main {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(leerPokemonesSQL);
 
+            boolean hasPokemons = false;
+
             while (rs.next()) {
+                hasPokemons = true;
                 int id = rs.getInt("id");
                 String nombre = rs.getString("nombre");
                 String tipo = rs.getString("tipo_principal");
@@ -241,6 +244,9 @@ public class Main {
 
                 System.out.println("ID: " + id + " | Nombre: " + nombre +
                         " | Tipo principal: " + tipo + " | Tipo secundario: " + tipo_sec + " | Nivel: " + nivel);
+            }
+            if (!hasPokemons) {
+                System.out.println("No hay pokémons en la base de datos.");
             }
         } catch (SQLException e) {
             System.out.println("Error al leer pokémons: " + e.getMessage());
@@ -495,7 +501,10 @@ public class Main {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(listaEntrenadoresSQL);
 
+            boolean hasEntrenadores = false;
+
             while (rs.next()) {
+                hasEntrenadores = true;
                 int id = rs.getInt("id");
                 String nombre = rs.getString("nombre");
                 String ciudad_origen = rs.getString("ciudad_origen");
@@ -526,9 +535,12 @@ public class Main {
                 System.out.println("ID: " + id + " | Nombre: " + nombre +
                         " | Ciudad de origen: " + ciudad_origen + " | Pokémons: " + pkString);
             }
+            if (!hasEntrenadores) {
+                System.out.println("No hay entrenadores en la base de datos.");
+            }
 
         } catch (SQLException e) {
-            System.out.println("Error al leer pokémons: " + e.getMessage());
+            System.out.println("Error al leer entrenadores: " + e.getMessage());
         }
     }
 
@@ -842,6 +854,8 @@ public class Main {
 
             if (pstmt.executeUpdate() == 0) {
                 System.out.println(
+                        "El entrenador '" + nombre_entrenador + "' NO tiene ASIGNADO el pokémon '" + nombre_pokemon
+                                + "'.");
                         "El entrenador '" + nombre_entrenador + "' NO tiene ASIGNADO el pokémon '" + nombre_pokemon
                                 + "'.");
                 System.out.println("No se ha realizado ninguna modificación.");
