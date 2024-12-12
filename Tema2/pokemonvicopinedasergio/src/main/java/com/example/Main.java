@@ -68,7 +68,7 @@ public class Main {
             System.out.println();
             System.out.println("0. Salir");
             System.out.println();
-            System.out.print("Ingrese una opcion: ");
+            System.out.print("Ingrese una opción: ");
 
             try {
                 opcion = input.nextInt();
@@ -842,7 +842,8 @@ public class Main {
 
             if (pstmt.executeUpdate() == 0) {
                 System.out.println(
-                        "El entrenador '" + nombre_entrenador + "' NO tiene ASIGNADO el pokémon '" + nombre_pokemon + "'.");
+                        "El entrenador '" + nombre_entrenador + "' NO tiene ASIGNADO el pokémon '" + nombre_pokemon
+                                + "'.");
                 System.out.println("No se ha realizado ninguna modificación.");
             } else {
                 System.out.println(
