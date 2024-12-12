@@ -58,8 +58,8 @@ public class Main {
             System.out.println("Opciones:");
             System.out.println("9. Asignar pokémon a un entrenador.");
             System.out.println("10. Desasignar pokémon a un entrenador.");
-            System.out.println("11. Registrar una nueva batalla entre dos entrenadores. PTT");
-            System.out.println("12. Ver el historial de batallas. WIP-PTT");
+            System.out.println("11. Registrar una nueva batalla entre dos entrenadores.");
+            System.out.println("12. Ver el historial de batallas.");
             System.out.println();
             System.out.println("Opciones avanzadas:");
             System.out.println("13. Obtener todos los Pokémon de un entrenador específico.*");
@@ -854,7 +854,6 @@ public class Main {
         }
     }
 
-    // PENDING TO TEST
     private static void registrarBatalla() {
         int id_ent_1 = 0;
         String nombre_entrenador_1 = "";
@@ -865,7 +864,6 @@ public class Main {
 
         do {
             try {
-
                 System.out.print("Ingrese el id del PRIMER entrenador para la batalla: ");
                 id_ent_1 = input.nextInt();
                 input.nextLine();
@@ -894,8 +892,7 @@ public class Main {
 
         do {
             try {
-
-                System.out.print("Ingrese el id del entrenador para asignarle un pokémon: ");
+                System.out.print("Ingrese el id del SEGUNDO entrenador para la batalla: ");
                 id_ent_2 = input.nextInt();
                 input.nextLine();
             } catch (InputMismatchException e) {
@@ -929,7 +926,9 @@ public class Main {
         System.out
                 .println("Batalla entre los entrenadores: " + nombre_entrenador_1 + " y " + nombre_entrenador_2 + ".");
         System.out.println("");
-
+        System.out.println("¡Comienza la batalla!");
+        System.out.println("---------------------");
+        System.out.println("");
         for (int i = 3; i > 0; i--) {
             System.out.println(i);
             try {
@@ -938,9 +937,6 @@ public class Main {
                 e.printStackTrace();
             }
         }
-        System.out.println("¡Comienza la batalla!");
-        System.out.println("---------------------");
-        System.out.println("");
 
         Random rand = new Random();
         int randomNum = rand.nextInt(2);
@@ -972,7 +968,6 @@ public class Main {
         }
     }
 
-    // PENDING TO TEST WIP
     private static void verHistorialBatallas() {
         String leerBatallas = "SELECT * FROM batallas";
 
@@ -981,13 +976,37 @@ public class Main {
             ResultSet rs = stmt.executeQuery(leerBatallas);
 
             while (rs.next()) {
-                int id = rs.getInt("id");
+                /* int id = rs.getInt("id"); */
                 String fecha = rs.getString("fecha");
                 String id_ganador = rs.getString("ganador_id");
                 String id_perdedor = rs.getString("perdedor_id");
 
-                System.out.println("ID: " + id + ", Fecha: " + fecha +
-                        ", Ganador: " + id_ganador + ", Perdedor: " + id_perdedor);
+                String sqlEntrenador = "SELECT * FROM entrenadores WHERE id = ?";
+
+                String nombre_ganador = "", nombre_perdedor = "";
+
+                PreparedStatement pstmt = conn.prepareStatement(sqlEntrenador);
+                pstmt.setInt(1, Integer.parseInt(id_ganador));
+                ResultSet rsGanador = pstmt.executeQuery();
+
+                if (rsGanador.next()) {
+                    nombre_ganador = rsGanador.getString("nombre");
+                } else {
+                    System.out.println("El entrenador con id " + id_ganador + " no existe.");
+                }
+
+                pstmt = conn.prepareStatement(sqlEntrenador);
+                pstmt.setInt(1, Integer.parseInt(id_perdedor));
+                ResultSet rsPerdedor = pstmt.executeQuery();
+
+                if (rsPerdedor.next()) {
+                    nombre_perdedor = rsPerdedor.getString("nombre");
+                } else {
+                    System.out.println("El entrenador con id " + id_perdedor + " no existe.");
+                }
+
+                System.out.println("Fecha: " + fecha +
+                        ", Ganador: " + nombre_ganador + ", Perdedor: " + nombre_perdedor);
             }
         } catch (SQLException e) {
             System.out.println("Error al leer las batallas: " + e.getMessage());
