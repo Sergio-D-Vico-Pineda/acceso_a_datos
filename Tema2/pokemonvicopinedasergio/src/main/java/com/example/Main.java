@@ -255,9 +255,7 @@ public class Main {
 
     private static void actualizarPokemon() {
         int id = 0;
-        String nombre;
-        String tipo;
-        String tipo_sec;
+        String nombre, tipo, tipo_sec;
         int nivel;
 
         do {
@@ -446,8 +444,7 @@ public class Main {
     }
 
     private static void agregarEntrenador() {
-        String nombre;
-        String ciudad;
+        String nombre, ciudad;
 
         do {
             try {
@@ -546,8 +543,7 @@ public class Main {
 
     private static void actualizarEntrenador() {
         int id;
-        String nombre;
-        String ciudad;
+        String nombre, ciudad;
 
         do {
             try {
@@ -699,10 +695,8 @@ public class Main {
     }
 
     private static void asignarPokemonAEntrenador() {
-        int id_ent = 0;
-        int id_pok = 0;
-        String nombre_entrenador = "";
-        String nombre_pokemon = "";
+        int id_ent = 0, id_pok = 0;
+        String nombre_entrenador = "", nombre_pokemon = "";
 
         do {
             try {
@@ -783,10 +777,8 @@ public class Main {
     }
 
     private static void eliminarPokemonDeEntrenador() {
-        int id_ent = 0;
-        int id_pok = 0;
-        String nombre_entrenador = "";
-        String nombre_pokemon = "";
+        int id_ent = 0, id_pok = 0;
+        String nombre_entrenador = "", nombre_pokemon = "";
 
         do {
             try {
@@ -856,8 +848,6 @@ public class Main {
                 System.out.println(
                         "El entrenador '" + nombre_entrenador + "' NO tiene ASIGNADO el pokémon '" + nombre_pokemon
                                 + "'.");
-                        "El entrenador '" + nombre_entrenador + "' NO tiene ASIGNADO el pokémon '" + nombre_pokemon
-                                + "'.");
                 System.out.println("No se ha realizado ninguna modificación.");
             } else {
                 System.out.println(
@@ -870,12 +860,9 @@ public class Main {
     }
 
     private static void registrarBatalla() {
-        int id_ent_1 = 0;
-        String nombre_entrenador_1 = "";
-        int id_ent_2 = 0;
-        String nombre_entrenador_2 = "";
-        int id_ganandor = 0;
-        int id_perdedor = 0;
+        int id_ent_1 = 0, id_ent_2 = 0;
+        String nombre_entrenador_1 = "", nombre_entrenador_2 = "";
+        int id_ganandor = 0, id_perdedor = 0;
 
         do {
             try {
