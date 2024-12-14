@@ -49,14 +49,14 @@ public class Main {
             System.out.println();
             System.out.println("Opciones:");
             System.out.println("9. Asignar pokémon a un entrenador. DONE");
-            System.out.println("10. Desasignar pokémon a un entrenador.");
-            System.out.println("11. Registrar una nueva batalla entre dos entrenadores.");
-            System.out.println("12. Ver el historial de batallas.");
+            System.out.println("10. Desasignar pokémon a un entrenador. DONE");
+            System.out.println("11. Registrar una nueva batalla entre dos entrenadores. DONE");
+            System.out.println("12. Ver el historial de batallas. PTT");
             System.out.println();
             System.out.println("Opciones avanzadas:");
-            System.out.println("13. Obtener todos los pokémons de un entrenador específico.");
-            System.out.println("14. Obtener el historial de batallas de un entrenador.");
-            System.out.println("15. Obtener estadísticas de victorias y derrotas de los entrenadores.");
+            System.out.println("13. Obtener todos los pokémons de un entrenador específico. DONE");
+            System.out.println("14. Obtener el historial de batallas de un entrenador. PTT");
+            System.out.println("15. Obtener estadísticas de victorias y derrotas de los entrenadores. PTT");
             System.out.println();
             System.out.println("0. Salir");
             System.out.println();
@@ -220,7 +220,7 @@ public class Main {
             return;
         }
 
-        Entrenador.asignarEntrenadorPokemon(idEnt, idPok);        
+        Entrenador.asignarEntrenadorPokemon(idEnt, idPok);
     }
 
     private static void desasignarPokemonEntrenador() {
@@ -246,7 +246,7 @@ public class Main {
     private static void registrarBatalla() {
         int idEnt1, idEnt2;
 
-                System.out.print("Ingrese el id del PRIMER entrenador para la batalla: ");
+        System.out.print("Ingrese el id del PRIMER entrenador para la batalla: ");
         idEnt1 = Entrenador.escribirInt("id");
 
         if (!Entrenador.existeEntrenador(idEnt1)) {
@@ -269,7 +269,7 @@ public class Main {
 
         if (!Entrenador.existeEntrenador(idEnt)) {
             return;
-            }
+        }
 
         Entrenador.leerPokemonsEntrenador(idEnt);
     }
