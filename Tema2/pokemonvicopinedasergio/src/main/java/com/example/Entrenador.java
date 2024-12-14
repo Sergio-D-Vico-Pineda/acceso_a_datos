@@ -270,4 +270,72 @@ public class Entrenador {
             System.out.println("Error al eliminar pokémon: " + e.getMessage());
         }
     }
+
+    public static void leerPokemonsEntrenador(int id) {
+        String nombreEntrenador = getNombre(id);
+
+        System.out.println("Los pokémon de " + nombreEntrenador + " son: ");
+        System.out.println();
+
+        String sql = "SELECT p.id, p.nombre, p.tipo_principal, p.tipo_secundario, p.nivel FROM pokemons p "
+                +
+                "INNER JOIN entrenador_pokemon ep ON p.id = ep.pokemon_id WHERE ep.entrenador_id = ?";
+
+        boolean existenPokemones = false;
+        try {
+            PreparedStatement pstmt = DBConnection.con().prepareStatement(sql);
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                existenPokemones = true;
+                int idPok = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+
+                System.out.println("ID: " + idPok + " | Nombre: " + nombre);
+            }
+
+            if (!existenPokemones) {
+                System.out.println("No tiene pokémons.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al leer pokémons: " + e.getMessage());
+        }
+
+    }
+
+    public static void estadisticas(int id) {
+        String nombreEntrenador;
+
+        nombreEntrenador = getNombre(id);
+
+        String sql = "SELECT COUNT(*) AS batallas_ganadas FROM batallas WHERE ganador_id = ?";
+        String sql2 = "SELECT COUNT(*) AS batallas_perdidas FROM batallas WHERE perdedor_id = ?";
+
+        try {
+            int batallasGanadas = 0;
+            int batallasPerdidas = 0;
+
+            PreparedStatement pstmt = DBConnection.con().prepareStatement(sql);
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            PreparedStatement pstmt2 = DBConnection.con().prepareStatement(sql2);
+            pstmt2.setInt(1, id);
+            ResultSet rs2 = pstmt2.executeQuery();
+
+            while (rs.next() && rs2.next()) {
+                batallasGanadas = rs.getInt("batallas_ganadas");
+                batallasPerdidas = rs2.getInt("batallas_perdidas");
+            }
+
+            System.out.println("Estadísticas de " + nombreEntrenador + ":");
+            System.out.println();
+            System.out.println("Batallas ganadas: " + batallasGanadas);
+            System.out.println("Batallas perdidas: " + batallasPerdidas);
+
+        } catch (SQLException e) {
+            System.out.println("Error al leer estadísticas: " + e.getMessage());
+        }
+    }
 }
