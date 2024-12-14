@@ -90,7 +90,7 @@ public class Main {
                 case 9 -> asignarPokemonAEntrenador();
                 case 10 -> eliminarPokemonDeEntrenador();
                 case 11 -> registrarBatalla();
-                case 12 -> verHistorialBatallas();
+                case 12 -> Batalla.historial();
 
                 case 13 -> obtenerPokemonesDeEntrenador();
                 case 14 -> obtenerHistorialBatallasDeEntrenador();
@@ -247,159 +247,22 @@ public class Main {
     }
 
     private static void registrarBatalla() {
-        int id_ent_1 = 0, id_ent_2 = 0;
-        String nombre_entrenador_1 = "", nombre_entrenador_2 = "";
-        int id_ganandor = 0, id_perdedor = 0;
+        int idEnt1, idEnt2;
 
-        do {
-            try {
                 System.out.print("Ingrese el id del PRIMER entrenador para la batalla: ");
-                id_ent_1 = input.nextInt();
-                input.nextLine();
-            } catch (InputMismatchException e) {
-                System.out.println("El id del entrenador no es válido. Debe ser un número.");
-                input.nextLine();
-                continue;
-            }
+        idEnt1 = Entrenador.escribirInt("id");
 
-            String existeEntrenadorSQL = "SELECT * FROM entrenadores WHERE id = ?";
-            try {
-                PreparedStatement pstmt = DBConnection.con().prepareStatement(existeEntrenadorSQL);
-                pstmt.setInt(1, id_ent_1);
-                ResultSet rs = pstmt.executeQuery();
-
-                if (rs.next()) {
-                    nombre_entrenador_1 = rs.getString("nombre");
-                    break;
-                } else {
-                    System.out.println("El entrenador con id " + id_ent_1 + " no existe.");
-                }
-            } catch (SQLException e) {
-                System.out.println("Error al comprobar si el entrenador existe: " + e.getMessage());
-            }
-        } while (true);
-
-        do {
-            try {
-                System.out.print("Ingrese el id del SEGUNDO entrenador para la batalla: ");
-                id_ent_2 = input.nextInt();
-                input.nextLine();
-            } catch (InputMismatchException e) {
-                System.out.println("El id del entrenador no es válido. Debe ser un número.");
-                input.nextLine();
-                continue;
-            }
-
-            String existeEntrenadorSQL = "SELECT * FROM entrenadores WHERE id = ?";
-            try {
-                PreparedStatement pstmt = DBConnection.con().prepareStatement(existeEntrenadorSQL);
-                pstmt.setInt(1, id_ent_2);
-                ResultSet rs = pstmt.executeQuery();
-
-                if (rs.next()) {
-                    nombre_entrenador_2 = rs.getString("nombre");
-                    break;
-                } else {
-                    System.out.println("El entrenador con id " + id_ent_2 + " no existe.");
-                }
-            } catch (SQLException e) {
-                System.out.println("Error al comprobar si el entrenador existe: " + e.getMessage());
-            }
-        } while (true);
-
-        if (id_ent_1 == id_ent_2) {
-            System.out.println("El entrenador no puede enfrentarse a sí mismo.");
+        if (!Entrenador.existeEntrenador(idEnt1)) {
             return;
         }
 
-        System.out
-                .println("Batalla entre los entrenadores: " + nombre_entrenador_1 + " y " + nombre_entrenador_2 + ".");
-        System.out.println("");
-        System.out.println("¡Comienza la batalla!");
-        System.out.println("---------------------");
-        System.out.println("");
-        for (int i = 3; i > 0; i--) {
-            System.out.println(i);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        System.out.print("Ingrese el id del SEGUNDO entrenador para la batalla: ");
+        idEnt2 = Entrenador.escribirInt("id");
 
-        Random rand = new Random();
-        int randomNum = rand.nextInt(2);
-        if (randomNum == 0) {
-            id_ganandor = id_ent_1;
-            id_perdedor = id_ent_2;
-            System.out.println(
-                    "El ganador es: " + nombre_entrenador_1 + " y el perdedor es: " + nombre_entrenador_2 + ".");
-        } else {
-            id_ganandor = id_ent_2;
-            id_perdedor = id_ent_1;
-            System.out.println(
-                    "El ganador es: " + nombre_entrenador_2 + " y el perdedor es: " + nombre_entrenador_1 + ".");
-        }
+        if (!Entrenador.existeEntrenador(idEnt2))
+            return;
 
-        String registrarBatallaSQL = "INSERT INTO batallas (ganador_id, perdedor_id, fecha) VALUES (?, ?, ?)";
-        System.out.println("");
-
-        try {
-            PreparedStatement pstmt = DBConnection.con().prepareStatement(registrarBatallaSQL);
-            pstmt.setInt(1, id_ganandor);
-            pstmt.setInt(2, id_perdedor);
-            pstmt.setDate(3, Date.valueOf(LocalDate.now()));
-            pstmt.executeUpdate();
-
-            System.out.println("Batalla registrada con exito.");
-        } catch (SQLException e) {
-            System.out.println("Error al registrar batalla: " + e.getMessage());
-        }
-    }
-
-    private static void verHistorialBatallas() {
-        String leerBatallas = "SELECT * FROM batallas";
-
-        try {
-            Statement stmt = DBConnection.con().createStatement();
-            ResultSet rs = stmt.executeQuery(leerBatallas);
-
-            while (rs.next()) {
-                /* int id = rs.getInt("id"); */
-                String fecha = rs.getString("fecha");
-                String id_ganador = rs.getString("ganador_id");
-                String id_perdedor = rs.getString("perdedor_id");
-
-                String sqlEntrenador = "SELECT * FROM entrenadores WHERE id = ?";
-
-                String nombre_ganador = "", nombre_perdedor = "";
-
-                PreparedStatement pstmt = DBConnection.con().prepareStatement(sqlEntrenador);
-                pstmt.setInt(1, Integer.parseInt(id_ganador));
-                ResultSet rsGanador = pstmt.executeQuery();
-
-                if (rsGanador.next()) {
-                    nombre_ganador = rsGanador.getString("nombre");
-                } else {
-                    System.out.println("El entrenador con id " + id_ganador + " no existe.");
-                }
-
-                pstmt = DBConnection.con().prepareStatement(sqlEntrenador);
-                pstmt.setInt(1, Integer.parseInt(id_perdedor));
-                ResultSet rsPerdedor = pstmt.executeQuery();
-
-                if (rsPerdedor.next()) {
-                    nombre_perdedor = rsPerdedor.getString("nombre");
-                } else {
-                    System.out.println("El entrenador con id " + id_perdedor + " no existe.");
-                }
-
-                System.out.println("Fecha: " + fecha +
-                        ", Ganador: " + nombre_ganador + ", Perdedor: " + nombre_perdedor);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error al leer las batallas: " + e.getMessage());
-        }
+        Batalla.registrarBatalla(idEnt1, idEnt2);
     }
 
     private static void obtenerPokemonesDeEntrenador() {
@@ -464,86 +327,14 @@ public class Main {
     }
 
     private static void obtenerHistorialBatallasDeEntrenador() {
-        int id_ent = 0;
-        String nombre_entrenador = "";
+        int idEnt;
 
-        do {
-            try {
-                System.out.print("Ingrese el ID del ENTRENADOR para la consulta: ");
-                id_ent = input.nextInt();
-                input.nextLine();
-            } catch (InputMismatchException e) {
-                System.out.println("El id del entrenador no es válido. Debe ser un número.");
-                input.nextLine();
-                continue;
-            }
+        idEnt = Entrenador.escribirInt("id");
 
-            String existeEntrenadorSQL = "SELECT * FROM entrenadores WHERE id = ?";
-            try {
-                PreparedStatement pstmt = DBConnection.con().prepareStatement(existeEntrenadorSQL);
-                pstmt.setInt(1, id_ent);
-                ResultSet rs = pstmt.executeQuery();
+        if (!Entrenador.existeEntrenador(idEnt))
+            return;
 
-                if (rs.next()) {
-                    nombre_entrenador = rs.getString("nombre");
-                    break;
-                } else {
-                    System.out.println("El entrenador con id " + id_ent + " no existe.");
-                }
-            } catch (SQLException e) {
-                System.out.println("Error al comprobar si el entrenador existe: " + e.getMessage());
-            }
-        } while (true);
-
-        System.out.println("Las batallas de " + nombre_entrenador + " son: ");
-        System.out.println();
-
-        String sql = "SELECT b.id, b.ganador_id, b.perdedor_id, b.fecha FROM batallas b "
-                +
-                "INNER JOIN entrenadores e ON b.ganador_id = e.id OR b.perdedor_id = e.id WHERE e.id = ?";
-
-        try {
-            PreparedStatement pstmt = DBConnection.con().prepareStatement(sql);
-            pstmt.setInt(1, id_ent);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                /* int id = rs.getInt("id"); */
-                String ganador_id = rs.getString("ganador_id");
-                String perdedor_id = rs.getString("perdedor_id");
-                String fecha = rs.getString("fecha");
-
-                String sqlEntrenador = "SELECT * FROM entrenadores WHERE id = ?";
-
-                String nombre_ganador = "", nombre_perdedor = "";
-
-                PreparedStatement pstmt2 = DBConnection.con().prepareStatement(sqlEntrenador);
-                pstmt2.setInt(1, Integer.parseInt(ganador_id));
-                ResultSet rsGanador = pstmt2.executeQuery();
-
-                if (rsGanador.next()) {
-                    nombre_ganador = rsGanador.getString("nombre");
-                } else {
-                    System.out.println("El entrenador con id " + ganador_id + " no existe.");
-                }
-
-                pstmt2 = DBConnection.con().prepareStatement(sqlEntrenador);
-                pstmt2.setInt(1, Integer.parseInt(perdedor_id));
-                ResultSet rsPerdedor = pstmt2.executeQuery();
-
-                if (rsPerdedor.next()) {
-                    nombre_perdedor = rsPerdedor.getString("nombre");
-                } else {
-                    System.out.println("El entrenador con id " + perdedor_id + " no existe.");
-                }
-
-                System.out.println("Fecha: " + fecha +
-                        " | Ganador: " + nombre_ganador + " (" + ganador_id + ") y Perdedor: " + nombre_perdedor
-                        + " (" + perdedor_id + ")");
-            }
-        } catch (SQLException e) {
-            System.out.println("Error al leer batallas: " + e.getMessage());
-        }
+        Batalla.historial(idEnt);
     }
 
     private static void obtenerEstadisticas() {
