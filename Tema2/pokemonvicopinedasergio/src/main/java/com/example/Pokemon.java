@@ -84,14 +84,14 @@ public class Pokemon {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                int id_pok = rs.getInt("id");
+                int idPok = rs.getInt("id");
                 String nombre = rs.getString("nombre");
                 String tipo = rs.getString("tipo_principal");
-                String tipo_sec = rs.getString("tipo_secundario");
+                String tipoSec = rs.getString("tipo_secundario");
                 int nivel = rs.getInt("nivel");
 
-                System.out.println("ID: " + id_pok + " | Nombre: " + nombre +
-                        " | Tipo principal: " + tipo + " | Tipo secundario: " + tipo_sec + " | Nivel: " + nivel);
+                System.out.println("ID: " + idPok + " | Nombre: " + nombre +
+                        " | Tipo principal: " + tipo + " | Tipo secundario: " + tipoSec + " | Nivel: " + nivel);
             }
         } catch (SQLException e) {
             System.out.println("Error al leer pokémon: " + e.getMessage());
@@ -115,7 +115,7 @@ public class Pokemon {
         return nombre;
     }
 
-    public static void agregarPokemon(String nombre, String tipo, String tipo_sec, int nivel) {
+    public static void agregarPokemon(String nombre, String tipo, String tipoSec, int nivel) {
         String agregarPokemonSQL = "INSERT INTO pokemons (nombre, tipo_principal, tipo_secundario, nivel) VALUES (?, ?, ?, ?)";
 
         System.out.println("");
@@ -123,7 +123,7 @@ public class Pokemon {
             PreparedStatement pstmt = DBConnection.con().prepareStatement(agregarPokemonSQL);
             pstmt.setString(1, nombre);
             pstmt.setString(2, tipo);
-            pstmt.setString(3, tipo_sec);
+            pstmt.setString(3, tipoSec);
             pstmt.setInt(4, nivel);
             pstmt.executeUpdate();
 
@@ -169,10 +169,10 @@ public class Pokemon {
                 int id = rs.getInt("id");
                 String nombre = rs.getString("nombre");
                 String tipo = rs.getString("tipo_principal");
-                String tipo_sec = rs.getString("tipo_secundario");
+                String tipoSec = rs.getString("tipo_secundario");
                 int nivel = rs.getInt("nivel");
 
-                System.out.println(id + " | " + nombre + " | " + tipo + " | " + tipo_sec + " | " + nivel);
+                System.out.println(id + " | " + nombre + " | " + tipo + " | " + tipoSec + " | " + nivel);
             }
             if (!hasPokemons) {
                 System.out.println("No hay pokémons en la base de datos.");
@@ -182,7 +182,7 @@ public class Pokemon {
         }
     }
 
-    public static void actualizarPokemon(int id, String nombre, String tipo, String tipo_sec, int nivel) {
+    public static void actualizarPokemon(int id, String nombre, String tipo, String tipoSec, int nivel) {
         String actualizarPokemonSQL = "UPDATE pokemons SET nombre = ?, tipo_principal = ?, tipo_secundario = ?, nivel = ? WHERE id = ?";
 
         System.out.println("");
@@ -190,7 +190,7 @@ public class Pokemon {
             PreparedStatement pstmt = DBConnection.con().prepareStatement(actualizarPokemonSQL);
             pstmt.setString(1, nombre);
             pstmt.setString(2, tipo);
-            pstmt.setString(3, tipo_sec);
+            pstmt.setString(3, tipoSec);
             pstmt.setInt(4, nivel);
             pstmt.setInt(5, id);
             pstmt.executeUpdate();

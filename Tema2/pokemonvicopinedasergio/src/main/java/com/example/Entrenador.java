@@ -85,11 +85,11 @@ public class Entrenador {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                int id_ent = rs.getInt("id");
+                int idEnt = rs.getInt("id");
                 String nombre = rs.getString("nombre");
-                String ciudad_origen = rs.getString("ciudad_origen");
+                String ciudadOrigen = rs.getString("ciudad_origen");
 
-                System.out.println("ID: " + id_ent + " | Nombre: " + nombre + " | Ciudad de origen: " + ciudad_origen);
+                System.out.println("ID: " + idEnt + " | Nombre: " + nombre + " | Ciudad de origen: " + ciudadOrigen);
             }
         } catch (SQLException e) {
             System.out.println("Error al leer entrenador: " + e.getMessage());

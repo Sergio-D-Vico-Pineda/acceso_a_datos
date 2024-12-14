@@ -87,8 +87,8 @@ public class Main {
                 case 7 -> actualizarEntrenador();
                 case 8 -> eliminarEntrenador();
 
-                case 9 -> asignarPokemonAEntrenador();
-                case 10 -> eliminarPokemonDeEntrenador();
+                case 9 -> asignarPokemonEntrenador();
+                case 10 -> desasignarPokemonEntrenador();
                 case 11 -> registrarBatalla();
                 case 12 -> Batalla.historial();
 
@@ -120,15 +120,15 @@ public class Main {
     }
 
     private static void agregarPokemon() {
-        String nombre, tipo, tipo_sec;
+        String nombre, tipo, tipoSec;
         int nivel;
 
         nombre = Pokemon.escribir("nombre");
         tipo = Pokemon.escribir("tipo");
-        tipo_sec = Pokemon.escribir("tipo secundario");
+        tipoSec = Pokemon.escribir("tipo secundario");
         nivel = Pokemon.escribirInt("nivel");
 
-        Pokemon.agregarPokemon(nombre, tipo, tipo_sec, nivel);
+        Pokemon.agregarPokemon(nombre, tipo, tipoSec, nivel);
     }
 
     private static void actualizarPokemon() {
@@ -206,7 +206,7 @@ public class Main {
         Entrenador.eliminarEntrenador(id);
     }
 
-    private static void asignarPokemonAEntrenador() {
+    private static void asignarPokemonEntrenador() {
         int idEnt = 0, idPok = 0;
 
         System.out.print("Ingrese el id del entrenador para ASIGNARLE un pokémon: ");
@@ -226,7 +226,7 @@ public class Main {
         Entrenador.asignarEntrenadorPokemon(idEnt, idPok);        
     }
 
-    private static void eliminarPokemonDeEntrenador() {
+    private static void desasignarPokemonEntrenador() {
         int idEnt = 0, idPok = 0;
 
         System.out.print("Ingrese el id del entrenador para DESASIGNARLE un pokémon: ");
