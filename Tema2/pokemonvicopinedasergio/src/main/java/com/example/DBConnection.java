@@ -35,4 +35,23 @@ public class DBConnection {
         }
     }
 
+    public static boolean status() {
+        boolean status = false;
+        try {
+            System.out
+                    .println("Conexión exitosa a la base de datos: "
+                            + DBConnection.con().getMetaData().getDatabaseProductName());
+            status = true;
+        } catch (SQLException e) {
+            System.out.println("Error al conectar: " + e.getMessage());
+            System.out.println("");
+
+        } catch (Exception e) {
+            System.out.println("Error desconocido: " + e.getMessage());
+            System.out.println("");
+            /* Main.salirPrograma(); */
+        }
+        return status;
+    }
+
 }

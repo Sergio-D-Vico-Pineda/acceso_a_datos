@@ -1,6 +1,5 @@
 package com.example;
 
-import java.sql.*;
 import java.util.Scanner;
 
 public class Main {
@@ -18,17 +17,7 @@ public class Main {
             System.out.println();
             System.out.println("Ejercicio Durisimo para Aprobar - Acceso a datos - Sergio David Vico Pineda");
             System.out.println();
-            try {
-                System.out
-                        .println("Conexión exitosa a la base de datos: "
-                                + DBConnection.con().getMetaData().getDatabaseProductName());
-            } catch (SQLException e) {
-                System.out.println("Error al conectar: " + e.getMessage());
-                System.out.println("");
-                break;
-            } catch (Exception e) {
-                System.out.println("Error desconocido: " + e.getMessage());
-                System.out.println("");
+            if (!DBConnection.status()) {
                 salirPrograma();
                 break;
             }
@@ -109,7 +98,7 @@ public class Main {
         System.out.println("Opción invalida.");
     }
 
-    private static void salirPrograma() {
+    public static void salirPrograma() {
         System.out.println("Programa finalizado. Bye.");
         System.out.println("");
         if (DBConnection.con() != null)
