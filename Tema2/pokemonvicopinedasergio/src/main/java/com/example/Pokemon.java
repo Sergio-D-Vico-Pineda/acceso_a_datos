@@ -3,6 +3,7 @@ package com.example;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -19,7 +20,7 @@ public class Pokemon {
         do {
             System.out.printf("Ingrese el %s del pokémon: ", texto);
             entrada = input.nextLine();
-            if (entrada.isBlank()) {
+            if (entrada.isBlank() && !(permitirVacio.length > 0)) {
                 System.out.printf("El %s del pokémon no puede estar vacío.", texto);
                 System.out.println();
                 continue;
@@ -38,6 +39,7 @@ public class Pokemon {
 
         do {
             try {
+                if (!(imprimirTexto.length > 0))
                 System.out.printf("Ingrese el %s del pokémon: ", texto);
                 nivel = input.nextInt();
                 input.nextLine();

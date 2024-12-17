@@ -63,7 +63,7 @@ public class Batalla {
             PreparedStatement pstmt = DBConnection.con().prepareStatement(registrarBatallaSQL);
             pstmt.setInt(1, ganadorId);
             pstmt.setInt(2, perdedorId);
-            pstmt.setDate(3, Date.valueOf(LocalDate.now()));
+            pstmt.setDate(3, Date.valueOf(LocalDate.now())); // Con Date de SQL obtengo el dia actual
             pstmt.executeUpdate();
 
             System.out.println("Batalla registrada con exito.");
@@ -96,28 +96,12 @@ public class Batalla {
                 String perdedorId = rs.getString("perdedor_id");
                 String fecha = rs.getString("fecha");
 
-                String nombreGanador = "", nombrePerdedor = "";
-
-                nombreGanador = Entrenador.getNombre(Integer.parseInt(ganadorId));
-                nombrePerdedor = Entrenador.getNombre(Integer.parseInt(perdedorId));
-                /*
-                 * if (rsGanador.next()) {
-                 * } else {
-                 * System.out.println("El entrenador con id " + ganadorId + " no existe.");
-                 * }
-                 */
-
-                /*
-                 * if (rsPerdedor.next()) {
-                 * nombrePerdedor = rsPerdedor.getString("nombre");
-                 * } else {
-                 * System.out.println("El entrenador con id " + perdedorId + " no existe.");
-                 * }
-                 */
+                String nombreGanador = Entrenador.getNombre(Integer.parseInt(ganadorId));
+                String nombrePerdedor = Entrenador.getNombre(Integer.parseInt(perdedorId));
 
                 System.out.println("Fecha: " + fecha +
-                        " | Ganador: " + nombreGanador + " (" + ganadorId + ") y Perdedor: " + nombrePerdedor
-                        + " (" + perdedorId + ")");
+                        " | Ganador: " + nombreGanador + " (" + ganadorId + ") y Perdedor: " + nombrePerdedor +
+                        " (" + perdedorId + ")");
             }
         } catch (SQLException e) {
             System.out.println("Error al leer batallas: " + e.getClass());

@@ -19,7 +19,7 @@ public class Entrenador {
         do {
             System.out.printf("Ingrese el %s del entrenador: ", texto);
             entrada = input.nextLine();
-            if (entrada.isBlank()) {
+            if (entrada.isBlank() && !(permitirVacio.length > 0)) {
                 System.out.printf("El %s del entrenador no puede estar vacío.", texto);
                 System.out.println();
                 continue;
@@ -37,6 +37,7 @@ public class Entrenador {
 
         do {
             try {
+                if (!(imprimirTexto.length > 0))
                 System.out.printf("Ingrese el %s del entrenador: ", texto);
                 nivel = input.nextInt();
                 input.nextLine();
@@ -148,6 +149,11 @@ public class Entrenador {
         }
 
         if (idEnt > 0) {
+
+            if (!existeEntrenador(idEnt)) {
+                return;
+            }
+
             info(idEnt);
             return;
         }

@@ -127,6 +127,14 @@ public class Main {
     }
 
     private static void actualizarPokemon() {
+        System.out.println("Actualizando un pokémon: ");
+        System.out.println("");
+
+        if (!Pokemon.hayPokemons()) {
+            System.out.println("No hay pokémons en la base de datos.");
+            return;
+        }
+
         int id;
         String nombre, tipo, tipoSec;
         int nivel;
@@ -150,6 +158,14 @@ public class Main {
     }
 
     private static void eliminarPokemon() {
+        System.out.println("Eliminando un pokémon: ");
+        System.out.println("");
+
+        if (!Pokemon.hayPokemons()) {
+            System.out.println("No hay pokémons en la base de datos.");
+            return;
+        }
+
         int id = 0;
 
         id = Pokemon.escribirInt("id a ELIMINAR");
@@ -171,6 +187,15 @@ public class Main {
     }
 
     private static void actualizarEntrenador() {
+
+        System.out.println("Actualizando un entrenador: ");
+        System.out.println("");
+
+        if (!Entrenador.hayEntrenadores()) {
+            System.out.println("No hay entrenadores en la base de datos.");
+            return;
+        }
+
         int id;
         String nombre, ciudad;
 
@@ -191,6 +216,15 @@ public class Main {
     }
 
     private static void eliminarEntrenador() {
+
+        System.out.println("Eliminando un entrenador: ");
+        System.out.println("");
+
+        if (!Entrenador.hayEntrenadores()) {
+            System.out.println("No hay entrenadores en la base de datos.");
+            return;
+        }
+
         int id;
 
         id = Entrenador.escribirInt("id a ELIMINAR");
@@ -242,14 +276,22 @@ public class Main {
     }
 
     private static void registrarBatalla() {
+
+        System.out.println("Registrando una batalla: ");
+        System.out.println("");
+
+        if (!Entrenador.hayEntrenadores()) {
+            System.out.println("No hay entrenadores en la base de datos.");
+            return;
+        }
+
         int idEnt1, idEnt2;
 
         System.out.print("Ingrese el id del PRIMER entrenador para la batalla: ");
         idEnt1 = Entrenador.escribirInt("id");
 
-        if (!Entrenador.existeEntrenador(idEnt1)) {
+        if (!Entrenador.existeEntrenador(idEnt1))
             return;
-        }
 
         System.out.print("Ingrese el id del SEGUNDO entrenador para la batalla: ");
         idEnt2 = Entrenador.escribirInt("id");
@@ -260,10 +302,25 @@ public class Main {
         Batalla.registrarBatalla(idEnt1, idEnt2);
     }
 
-    private static void obtenerPokemonesDeEntrenador() {
-        int idEnt;
+    private static void historialBatallas() {
+        System.out.println("Mostrando historial de batallas: ");
+        System.out.println("");
 
-        idEnt = Entrenador.escribirInt("id");
+        Batalla.historial();
+    }
+
+    private static void obtenerPokemonsDeEntrenador() {
+
+        System.out.println("Mostrando pokémons de un entrenador: ");
+        System.out.println("");
+
+        if (!Entrenador.hayEntrenadores()) {
+            System.out.println("No hay entrenadores en la base de datos.");
+            return;
+        }
+
+        int idEnt = Entrenador.escribirInt("id");
+        System.out.println("");
 
         if (!Entrenador.existeEntrenador(idEnt)) {
             return;
@@ -273,9 +330,17 @@ public class Main {
     }
 
     private static void obtenerHistorialBatallasDeEntrenador() {
-        int idEnt;
 
-        idEnt = Entrenador.escribirInt("id");
+        System.out.println("Mostrando el historial de batallas de un entrenador: ");
+        System.out.println("");
+
+        if (!Entrenador.hayEntrenadores()) {
+            System.out.println("No hay entrenadores en la base de datos.");
+            return;
+        }
+
+        int idEnt = Entrenador.escribirInt("id");
+        System.out.println("");
 
         if (!Entrenador.existeEntrenador(idEnt))
             return;
@@ -284,9 +349,16 @@ public class Main {
     }
 
     private static void obtenerEstadisticas() {
-        int idEnt;
 
-        idEnt = Entrenador.escribirInt("id");
+        System.out.println("Mostrando estadísticas de un entrenador: ");
+        System.out.println("");
+
+        if (!Entrenador.hayEntrenadores()) {
+            System.out.println("No hay entrenadores en la base de datos.");
+            return;
+        }
+
+        int idEnt = Entrenador.escribirInt("id");
 
         if (!Entrenador.existeEntrenador(idEnt))
             return;
