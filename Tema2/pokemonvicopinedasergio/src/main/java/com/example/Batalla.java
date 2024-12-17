@@ -125,6 +125,7 @@ public class Batalla {
     }
 
     public static void historial() {
+        
         String leerBatallas = "SELECT * FROM batallas";
 
         try {

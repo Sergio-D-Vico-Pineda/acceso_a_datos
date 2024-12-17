@@ -233,6 +233,7 @@ public class Entrenador {
     // Asigna un pokemon a un entrenador, comprobando si ambos existen y que no
     // esten ya relacionados
     public static void asignarEntrenadorPokemon(int idEnt, int idPok) {
+
         String asignarPokemonSQL = "INSERT INTO entrenador_pokemon (entrenador_id, pokemon_id) VALUES (?, ?)";
         // String asignarPokemonSQL = "INSERT INTO entrenador_pokemon (entrenador_id,
         // pokemon_id, fecha) VALUES (?, ?, ?)";
@@ -260,6 +261,7 @@ public class Entrenador {
     // Desasigna un pokemon a un entrenador, comprobando si ambos existen y que
     // esten relacionados
     public static void desasignarEntrenadorPokemon(int idEnt, int idPok) {
+
         String eliminarPokemonSQL = "DELETE FROM entrenador_pokemon WHERE entrenador_id = ? AND pokemon_id = ?";
         System.out.println("");
 
@@ -288,6 +290,7 @@ public class Entrenador {
 
     // Muestra por pantalla la lista de pokemons que tiene un entrenador
     public static void leerPokemonsEntrenador(int id) {
+
         String nombreEntrenador = getNombre(id);
 
         System.out.println("Los pokémon de " + nombreEntrenador + " son: ");

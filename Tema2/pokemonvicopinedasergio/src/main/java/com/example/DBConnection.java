@@ -49,7 +49,6 @@ public class DBConnection {
         } catch (Exception e) {
             System.out.println("Error desconocido: " + e.getClass());
             System.out.println("");
-            /* Main.salirPrograma(); */
         }
         return status;
     }

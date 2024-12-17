@@ -61,6 +61,7 @@ public class Pokemon {
     public static boolean existePokemon(int id) {
 
         String existePokemonSQL = "SELECT * FROM pokemons WHERE id = ?";
+
         try {
             PreparedStatement pstmt = DBConnection.con().prepareStatement(existePokemonSQL);
             pstmt.setInt(1, id);
@@ -79,12 +80,9 @@ public class Pokemon {
     }
 
     public static void info(int id) {
-        /*
-         * if (!existePokemon(id))
-         * return;
-         */
 
         String infoSQL = "SELECT * FROM pokemons WHERE id = ?";
+
         try {
             PreparedStatement pstmt = DBConnection.con().prepareStatement(infoSQL);
             pstmt.setInt(1, id);
@@ -107,8 +105,10 @@ public class Pokemon {
 
     // Devuelve el nombre de un pokemon
     public static String getNombre(int id) {
+
         String infoSQL = "SELECT * FROM pokemons WHERE id = ?";
         String nombre = "";
+
         try {
             PreparedStatement pstmt = DBConnection.con().prepareStatement(infoSQL);
             pstmt.setInt(1, id);
@@ -129,10 +129,12 @@ public class Pokemon {
         System.out.println("");
         try {
             PreparedStatement pstmt = DBConnection.con().prepareStatement(agregarPokemonSQL);
+
             pstmt.setString(1, nombre);
             pstmt.setString(2, tipo);
             pstmt.setString(3, tipoSec);
             pstmt.setInt(4, nivel);
+
             pstmt.executeUpdate();
 
             System.out.println("Pokémon '" + nombre + "' agregado con exito.");
@@ -144,11 +146,7 @@ public class Pokemon {
     // Muestra por pantalla la información de un pokemon o una lista de todos
     public static void leerPokemons(String strIdPok) {
 
-        System.out.println(
-                "Id de un pokémon para ver sus detalles, cualquier otra cosa para ver todos los pokémons.");
-        String strIdPok = escribir("id");
         int idPok;
-        System.out.println("");
 
         try {
             idPok = Integer.parseInt(strIdPok);
@@ -193,16 +191,19 @@ public class Pokemon {
 
     // Actualiza toda la informacion de un pokemon
     public static void actualizarPokemon(int id, String nombre, String tipo, String tipoSec, int nivel) {
+
         String actualizarPokemonSQL = "UPDATE pokemons SET nombre = ?, tipo_principal = ?, tipo_secundario = ?, nivel = ? WHERE id = ?";
 
         System.out.println("");
         try {
             PreparedStatement pstmt = DBConnection.con().prepareStatement(actualizarPokemonSQL);
+
             pstmt.setString(1, nombre);
             pstmt.setString(2, tipo);
             pstmt.setString(3, tipoSec);
             pstmt.setInt(4, nivel);
             pstmt.setInt(5, id);
+
             pstmt.executeUpdate();
 
             System.out.println("Pokémon '" + nombre + "' actualizado con exito.");
@@ -213,6 +214,7 @@ public class Pokemon {
 
     // Elimina un pokemon, comprobando si existe, y si esta asignado a un entrenador
     public static void eliminarPokemon(int id) {
+
         info(id);
         System.out.println("");
 
