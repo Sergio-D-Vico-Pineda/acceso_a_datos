@@ -38,7 +38,7 @@ public class Entrenador {
         do {
             try {
                 if (!(imprimirTexto.length > 0))
-                System.out.printf("Ingrese el %s del entrenador: ", texto);
+                    System.out.printf("Ingrese el %s del entrenador: ", texto);
                 nivel = input.nextInt();
                 input.nextLine();
                 if (nivel <= 0) {
@@ -373,9 +373,16 @@ public class Entrenador {
 
             System.out.println("Estadísticas de " + nombreEntrenador + ":");
             System.out.println();
-            System.out.println("Batallas ganadas: " + batallasGanadas);
-            System.out.println("Batallas perdidas: " + batallasPerdidas);
+            System.out.println(batallasGanadas + " batallas ganadas y " + batallasPerdidas + " batallas perdidas.");
 
+            double porcentajeGanadas = (batallasGanadas * 100.0) / (batallasGanadas + batallasPerdidas);
+            double porcentajePerdidas = (batallasPerdidas * 100.0) / (batallasGanadas + batallasPerdidas);
+
+            System.out.printf("Porcentaje de batallas ganadas: %.2f%%, Porcentaje de batallas perdidas: %.2f%%%n",
+                    porcentajeGanadas, porcentajePerdidas);
+
+            System.out.printf("Total de batallas: %s", batallasGanadas + batallasPerdidas);
+            System.out.println("");
         } catch (SQLException e) {
             System.out.println("Error al leer estadísticas: " + e.getClass());
         }
