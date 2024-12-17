@@ -274,6 +274,25 @@ public class Main {
     }
 
     private static void asignarPokemonEntrenador() {
+
+        boolean falta = false;
+
+        System.out.println("Asignando un pokémon a un entrenador: ");
+        System.out.println("");
+
+        if (!Entrenador.hayEntrenadores()) {
+            System.out.println("No hay entrenadores en la base de datos.");
+            falta = true;
+        }
+
+        if (!Pokemon.hayPokemons()) {
+            System.out.println("No hay pokémons en la base de datos.");
+            falta = true;
+        }
+
+        if (falta)
+            return;
+
         int idEnt = 0, idPok = 0;
 
         System.out.print("Ingrese el id del entrenador para ASIGNARLE un pokémon: ");
@@ -294,6 +313,30 @@ public class Main {
     }
 
     private static void desasignarPokemonEntrenador() {
+
+        boolean falta = false;
+
+        System.out.println("Desasignando un pokémon de un entrenador: ");
+        System.out.println("");
+
+        if (!Entrenador.hayEntrenadores()) {
+            System.out.println("No hay entrenadores en la base de datos.");
+            falta = true;
+        }
+
+        if (!Pokemon.hayPokemons()) {
+            System.out.println("No hay pokémons en la base de datos.");
+            falta = true;
+        }
+
+        if (falta)
+            return;
+
+        if (!Pokemon.hayPokemonsAsignados()) {
+            System.out.println("No hay pokemons asignados a entrenadores.");
+            return;
+        }
+
         int idEnt = 0, idPok = 0;
 
         System.out.print("Ingrese el id del entrenador para DESASIGNARLE un pokémon: ");
