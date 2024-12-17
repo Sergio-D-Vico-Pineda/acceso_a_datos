@@ -125,6 +125,23 @@ public class Main {
         Pokemon.agregarPokemon(nombre, tipo, tipoSec, nivel);
     }
 
+    private static void leerPokemons() {
+        System.out.println("Información de uno o lista de todos los pokémons: ");
+        System.out.println("");
+
+        if (!Pokemon.hayPokemons()) {
+            System.out.println("No hay pokémons en la base de datos.");
+            return;
+        }
+
+        System.out.println(
+                "Id de un pokémon para ver sus detalles, cualquier otra cosa para ver todos los pokémons.");
+        String strIdPok = Pokemon.escribir("id", true);
+        System.out.println("");
+
+        Pokemon.leerPokemons(strIdPok);
+    }
+
     private static void actualizarPokemon() {
         System.out.println("Actualizando un pokémon: ");
         System.out.println("");
@@ -186,6 +203,24 @@ public class Main {
         ciudad = Entrenador.escribir("ciudad");
 
         Entrenador.agregarEntrenador(nombre, ciudad);
+    }
+
+    private static void leerEntrenadores() {
+
+        System.out.println("Información de uno o lista de todos los entrenadores: ");
+        System.out.println("");
+
+        if (!Entrenador.hayEntrenadores()) {
+            System.out.println("No hay entrenadores en la base de datos.");
+            return;
+        }
+
+        System.out.println(
+                "Id de un entrenador para ver sus detalles, cualquier otra cosa para ver todos los entrenadores.");
+        String strIdEnt = Entrenador.escribir("id", true);
+        System.out.println("");
+
+        Entrenador.leerEntrenadores(strIdEnt);
     }
 
     private static void actualizarEntrenador() {
