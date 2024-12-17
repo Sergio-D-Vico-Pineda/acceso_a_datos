@@ -29,6 +29,7 @@ public class Batalla {
         System.out.println("---------------------");
         System.out.println("");
 
+        // Hace un timeout de 3 segundos para darle más emoción
         for (int i = 3; i > 0; i--) {
             System.out.println(i);
             try {
@@ -38,6 +39,9 @@ public class Batalla {
             }
         }
 
+        System.out.println("");
+        // se decide de forma aleatoria el ganador
+        // Uso un rand para que saque un 0 o un 1
         Random rand = new Random();
         int randomNum = rand.nextInt(2);
         if (randomNum == 0) {
@@ -68,6 +72,8 @@ public class Batalla {
         }
     }
 
+    // uso sobrecarga de parametros para sacar el historial de batallas general
+    // o el de un entrenador en concreto con el mismo metodo
     public static void historial(int id) {
 
         String nombreEntrenador = Entrenador.getNombre(id);

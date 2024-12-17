@@ -11,7 +11,9 @@ import java.util.Scanner;
 public class Entrenador {
     static Scanner input = new Scanner(System.in);
 
-    public static String escribir(String texto) {
+    // Solicita al usuario que introduzca un valor de tipo cadena y asegura que no
+    // esté en blanco, a menos que un flag opcional lo permita.
+    public static String escribir(String texto, boolean... permitirVacio) {
         String entrada;
 
         do {
@@ -28,7 +30,9 @@ public class Entrenador {
         return entrada;
     }
 
-    public static int escribirInt(String texto) {
+    // Solicita al usuario que introduzca un valor de tipo entero
+    // El flag opcional es para que no imprima el texto
+    public static int escribirInt(String texto, boolean... imprimirTexto) {
         int nivel;
 
         do {
@@ -52,6 +56,8 @@ public class Entrenador {
         return nivel;
     }
 
+    // Comprueba si existe un entrenador con el id introducido, devuelve true o
+    // false
     public static boolean existeEntrenador(int id) {
 
         String existePokemonSQL = "SELECT * FROM entrenadores WHERE id = ?";
@@ -96,6 +102,7 @@ public class Entrenador {
         }
     }
 
+    // Devuelve el nombre de un entrenador
     public static String getNombre(int id) {
         String infoSQL = "SELECT * FROM entrenadores WHERE id = ?";
         String nombre = "";
@@ -129,7 +136,8 @@ public class Entrenador {
         }
     }
 
-    public static void leerEntrenadores() {
+    // Muestra por pantalla la información de un entrenador o una lista de todos
+    public static void leerEntrenadores(String strIdEnt) {
 
         System.out.println(
                 "Id de un entrenador para ver sus detalles, cualquier otra cosa para ver todos los entrenadores.");
@@ -176,6 +184,7 @@ public class Entrenador {
         }
     }
 
+    // Actualiza toda la informacion de un entrenador
     public static void actualizarEntrenador(int id, String nombre, String ciudad) {
         String actualizarEntrenadorSQL = "UPDATE entrenadores SET nombre = ?, ciudad_origen = ? WHERE id = ?";
 
@@ -194,6 +203,8 @@ public class Entrenador {
         }
     }
 
+    // Elimina un entrenador, comprobando si existe, si tiene algun pokemon o si ha
+    // participado en alguna batalla
     public static void eliminarEntrenador(int id) {
         info(id);
         System.out.println("");
@@ -219,6 +230,8 @@ public class Entrenador {
         }
     }
 
+    // Asigna un pokemon a un entrenador, comprobando si ambos existen y que no
+    // esten ya relacionados
     public static void asignarEntrenadorPokemon(int idEnt, int idPok) {
         String asignarPokemonSQL = "INSERT INTO entrenador_pokemon (entrenador_id, pokemon_id) VALUES (?, ?)";
         // String asignarPokemonSQL = "INSERT INTO entrenador_pokemon (entrenador_id,
@@ -244,6 +257,8 @@ public class Entrenador {
         }
     }
 
+    // Desasigna un pokemon a un entrenador, comprobando si ambos existen y que
+    // esten relacionados
     public static void desasignarEntrenadorPokemon(int idEnt, int idPok) {
         String eliminarPokemonSQL = "DELETE FROM entrenador_pokemon WHERE entrenador_id = ? AND pokemon_id = ?";
         System.out.println("");
@@ -271,12 +286,15 @@ public class Entrenador {
         }
     }
 
+    // Muestra por pantalla la lista de pokemons que tiene un entrenador
     public static void leerPokemonsEntrenador(int id) {
         String nombreEntrenador = getNombre(id);
 
         System.out.println("Los pokémon de " + nombreEntrenador + " son: ");
         System.out.println();
 
+        // sql inner join entre entrenador_pokemon y pokemons
+        // para sacar los datos del pokemon
         String sql = "SELECT p.id, p.nombre, p.tipo_principal, p.tipo_secundario, p.nivel FROM pokemons p "
                 +
                 "INNER JOIN entrenador_pokemon ep ON p.id = ep.pokemon_id WHERE ep.entrenador_id = ?";
@@ -304,6 +322,7 @@ public class Entrenador {
 
     }
 
+    // Muestra por pantalla las estadísticas de un entrenador
     public static void estadisticas(int id) {
         String nombreEntrenador;
 

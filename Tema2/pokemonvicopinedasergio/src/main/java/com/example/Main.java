@@ -8,6 +8,7 @@ public class Main {
     public static void main(String[] args) {
         int opcion = 0;
 
+        // Creo la conexión a la base de datos si no se puede abrir, finalizo el programa
         if (!DBConnection.crearConexion()) {
             salirPrograma();
             return;
@@ -17,6 +18,7 @@ public class Main {
             System.out.println();
             System.out.println("Ejercicio Durisimo para Aprobar - Acceso a datos - Sergio David Vico Pineda");
             System.out.println();
+            // Por si se ha podido iniciar la conexion pero hay algun problema lo vuelvo a comprobar, si no se puede, finalizo el programa
             if (!DBConnection.status()) {
                 salirPrograma();
                 break;
@@ -59,7 +61,7 @@ public class Main {
             }
 
             System.out.println();
-            input.nextLine();
+            input.nextLine(); // Este tipo de next() y nextLine() son para limpiar el intro del los nextInt o nextDouble
 
             switch (opcion) {
                 case 0 -> salirPrograma();
@@ -85,6 +87,7 @@ public class Main {
                 default -> defaultOption();
             }
 
+            // Esta condicion es para que al salir del programa no se imprima el mensaje
             if (opcion != 0) {
                 System.out.println();
                 System.out.print("Presiona ENTER para continuar...");
@@ -101,6 +104,7 @@ public class Main {
     public static void salirPrograma() {
         System.out.println("Programa finalizado. Bye.");
         System.out.println("");
+        // Compruebo si la base de está abierta y la cierro
         if (DBConnection.con() != null)
             DBConnection.cerrarConexion();
     }
@@ -109,9 +113,14 @@ public class Main {
         String nombre, tipo, tipoSec;
         int nivel;
 
+        System.out.println("Agregando un nuevo pokémon: ");
+        System.out.println("");
+
+        // Este metodo es para que el usuario introduzca datos, el parametro es que dato se requiere
         nombre = Pokemon.escribir("nombre");
         tipo = Pokemon.escribir("tipo");
         tipoSec = Pokemon.escribir("tipo secundario");
+        // Aqui hay una variación para Ints
         nivel = Pokemon.escribirInt("nivel");
 
         Pokemon.agregarPokemon(nombre, tipo, tipoSec, nivel);

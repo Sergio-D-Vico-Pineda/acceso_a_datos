@@ -10,7 +10,10 @@ import java.util.Scanner;
 public class Pokemon {
     static Scanner input = new Scanner(System.in);
 
-    public static String escribir(String texto) {
+    // Solicita al usuario que introduzca un valor de tipo cadena y asegura que no
+    // esté en blanco, a menos que un flag opcional lo permita.
+    public static String escribir(String texto, boolean... permitirVacio) {
+
         String entrada;
 
         do {
@@ -27,7 +30,10 @@ public class Pokemon {
         return entrada;
     }
 
-    public static int escribirInt(String texto) {
+    // Solicita al usuario que introduzca un valor de tipo entero
+    // El flag opcional es para que no imprima el texto
+    public static int escribirInt(String texto, boolean... imprimirTexto) {
+
         int nivel;
 
         do {
@@ -51,6 +57,7 @@ public class Pokemon {
         return nivel;
     }
 
+    // Comprueba si existe un pokemon con el id introducido, devuelve true o false
     public static boolean existePokemon(int id) {
 
         String existePokemonSQL = "SELECT * FROM pokemons WHERE id = ?";
@@ -98,6 +105,7 @@ public class Pokemon {
         }
     }
 
+    // Devuelve el nombre de un pokemon
     public static String getNombre(int id) {
         String infoSQL = "SELECT * FROM pokemons WHERE id = ?";
         String nombre = "";
@@ -133,7 +141,8 @@ public class Pokemon {
         }
     }
 
-    public static void leerPokemones() {
+    // Muestra por pantalla la información de un pokemon o una lista de todos
+    public static void leerPokemons(String strIdPok) {
 
         System.out.println(
                 "Id de un pokémon para ver sus detalles, cualquier otra cosa para ver todos los pokémons.");
@@ -182,6 +191,7 @@ public class Pokemon {
         }
     }
 
+    // Actualiza toda la informacion de un pokemon
     public static void actualizarPokemon(int id, String nombre, String tipo, String tipoSec, int nivel) {
         String actualizarPokemonSQL = "UPDATE pokemons SET nombre = ?, tipo_principal = ?, tipo_secundario = ?, nivel = ? WHERE id = ?";
 
@@ -201,6 +211,7 @@ public class Pokemon {
         }
     }
 
+    // Elimina un pokemon, comprobando si existe, y si esta asignado a un entrenador
     public static void eliminarPokemon(int id) {
         info(id);
         System.out.println("");
