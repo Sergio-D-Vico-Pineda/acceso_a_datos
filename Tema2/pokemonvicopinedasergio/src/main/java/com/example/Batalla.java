@@ -68,7 +68,7 @@ public class Batalla {
 
             System.out.println("Batalla registrada con exito.");
         } catch (SQLException e) {
-            System.out.println("Error al registrar batalla: " + e.getMessage());
+            System.out.println("Error al registrar batalla: " + e.getClass());
         }
     }
 
@@ -120,7 +120,7 @@ public class Batalla {
                         + " (" + perdedorId + ")");
             }
         } catch (SQLException e) {
-            System.out.println("Error al leer batallas: " + e.getMessage());
+            System.out.println("Error al leer batallas: " + e.getClass());
         }
     }
 
@@ -147,7 +147,7 @@ public class Batalla {
                         + perdedorId + ")");
             }
         } catch (SQLException e) {
-            System.out.println("Error al leer las batallas: " + e.getMessage());
+            System.out.println("Error al leer las batallas: " + e.getClass());
         }
     }
 

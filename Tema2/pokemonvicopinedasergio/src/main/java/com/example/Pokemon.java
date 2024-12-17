@@ -72,7 +72,7 @@ public class Pokemon {
                 System.out.println("El pokémon con id '" + id + "' no existe.");
             }
         } catch (SQLException e) {
-            System.out.println("Error al comprobar si el pokémon existe: " + e.getMessage());
+            System.out.println("Error al comprobar si el pokémon existe: " + e.getClass());
         }
 
         return false;
@@ -101,7 +101,7 @@ public class Pokemon {
                         " | Tipo principal: " + tipo + " | Tipo secundario: " + tipoSec + " | Nivel: " + nivel);
             }
         } catch (SQLException e) {
-            System.out.println("Error al leer pokémon: " + e.getMessage());
+            System.out.println("Error al leer pokémon: " + e.getClass());
         }
     }
 
@@ -118,7 +118,7 @@ public class Pokemon {
                 nombre = rs.getString("nombre");
             }
         } catch (SQLException e) {
-            System.out.println("Error al leer pokémon: " + e.getMessage());
+            System.out.println("Error al leer pokémon: " + e.getClass());
         }
         return nombre;
     }
@@ -137,7 +137,7 @@ public class Pokemon {
 
             System.out.println("Pokémon '" + nombre + "' agregado con exito.");
         } catch (SQLException e) {
-            System.out.println("Error al agregar pokémon: " + e.getMessage());
+            System.out.println("Error al agregar pokémon: " + e.getClass());
         }
     }
 
@@ -187,7 +187,7 @@ public class Pokemon {
                 System.out.println("No hay pokémons en la base de datos.");
             }
         } catch (SQLException e) {
-            System.out.println("Error al leer pokémons: " + e.getMessage());
+            System.out.println("Error al leer pokémons: " + e.getClass());
         }
     }
 
@@ -207,7 +207,7 @@ public class Pokemon {
 
             System.out.println("Pokémon '" + nombre + "' actualizado con exito.");
         } catch (SQLException e) {
-            System.out.println("Error al actualizar pokémon: " + e.getMessage());
+            System.out.println("Error al actualizar pokémon: " + e.getClass());
         }
     }
 
@@ -230,7 +230,7 @@ public class Pokemon {
 
                 System.out.println("Pokémon eliminado con exito.");
             } catch (SQLException e) {
-                System.out.println("Error al eliminar pokémon: " + e.getMessage());
+                System.out.println("Error al eliminar pokémon: " + e.getClass());
             }
         } else {
             System.out.println("Cancelado.");

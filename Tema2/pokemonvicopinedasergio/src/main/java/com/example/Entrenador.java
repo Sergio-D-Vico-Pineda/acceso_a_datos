@@ -72,7 +72,7 @@ public class Entrenador {
                 System.out.println("El entrenador con id '" + id + "' no existe.");
             }
         } catch (SQLException e) {
-            System.out.println("Error al comprobar si el entrenador existe: " + e.getMessage());
+            System.out.println("Error al comprobar si el entrenador existe: " + e.getClass());
         }
 
         return false;
@@ -98,7 +98,7 @@ public class Entrenador {
                 System.out.println("ID: " + idEnt + " | Nombre: " + nombre + " | Ciudad de origen: " + ciudadOrigen);
             }
         } catch (SQLException e) {
-            System.out.println("Error al leer entrenador: " + e.getMessage());
+            System.out.println("Error al leer entrenador: " + e.getClass());
         }
     }
 
@@ -115,7 +115,7 @@ public class Entrenador {
                 nombre = rs.getString("nombre");
             }
         } catch (SQLException e) {
-            System.out.println("Error al leer entrenador: " + e.getMessage());
+            System.out.println("Error al leer entrenador: " + e.getClass());
         }
         return nombre;
     }
@@ -132,7 +132,7 @@ public class Entrenador {
 
             System.out.println("Entrenador '" + nombre + "' agregado con exito.");
         } catch (SQLException e) {
-            System.out.println("Error al agregar entrenador: " + e.getMessage());
+            System.out.println("Error al agregar entrenador: " + e.getClass());
         }
     }
 
@@ -180,7 +180,7 @@ public class Entrenador {
                 System.out.println("No hay entrenadores en la base de datos.");
             }
         } catch (SQLException e) {
-            System.out.println("Error al leer entrenadores: " + e.getMessage());
+            System.out.println("Error al leer entrenadores: " + e.getClass());
         }
     }
 
@@ -199,7 +199,7 @@ public class Entrenador {
 
             System.out.println("Entrenador '" + nombre + "' actualizado con exito.");
         } catch (SQLException e) {
-            System.out.println("Error al actualizar entrenador: " + e.getMessage());
+            System.out.println("Error al actualizar entrenador: " + e.getClass());
         }
     }
 
@@ -223,7 +223,7 @@ public class Entrenador {
 
                 System.out.println("Entrenador eliminado con exito.");
             } catch (SQLException e) {
-                System.out.println("Error al eliminar entrenador: " + e.getMessage());
+                System.out.println("Error al eliminar entrenador: " + e.getClass());
             }
         } else {
             System.out.println("Cancelado.");
@@ -253,7 +253,7 @@ public class Entrenador {
             System.err.println(
                     "El entrenador '" + nombreEntrenador + "' YA tiene ASIGNADO el pokémon '" + nombrePokemon + "'.");
         } catch (SQLException e) {
-            System.out.println("Error desconocido al asignar pokémon: " + e.getMessage());
+            System.out.println("Error desconocido al asignar pokémon: " + e.getClass());
         }
     }
 
@@ -282,7 +282,7 @@ public class Entrenador {
                                 + "' con exito.");
             }
         } catch (SQLException e) {
-            System.out.println("Error al eliminar pokémon: " + e.getMessage());
+            System.out.println("Error al eliminar pokémon: " + e.getClass());
         }
     }
 
@@ -317,7 +317,7 @@ public class Entrenador {
                 System.out.println("No tiene pokémons.");
             }
         } catch (SQLException e) {
-            System.out.println("Error al leer pokémons: " + e.getMessage());
+            System.out.println("Error al leer pokémons: " + e.getClass());
         }
 
     }
@@ -354,7 +354,7 @@ public class Entrenador {
             System.out.println("Batallas perdidas: " + batallasPerdidas);
 
         } catch (SQLException e) {
-            System.out.println("Error al leer estadísticas: " + e.getMessage());
+            System.out.println("Error al leer estadísticas: " + e.getClass());
         }
     }
 }

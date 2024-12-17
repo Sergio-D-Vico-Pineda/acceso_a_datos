@@ -31,7 +31,7 @@ public class DBConnection {
         try {
             conn.close();
         } catch (SQLException e) {
-            System.out.println("Error al cerrar la conexion: " + e.getMessage());
+            System.out.println("Error al cerrar la conexion: " + e.getClass());
         }
     }
 
@@ -43,11 +43,11 @@ public class DBConnection {
                             + DBConnection.con().getMetaData().getDatabaseProductName());
             status = true;
         } catch (SQLException e) {
-            System.out.println("Error al conectar: " + e.getMessage());
+            System.out.println("Error al conectar: " + e.getClass());
             System.out.println("");
 
         } catch (Exception e) {
-            System.out.println("Error desconocido: " + e.getMessage());
+            System.out.println("Error desconocido: " + e.getClass());
             System.out.println("");
             /* Main.salirPrograma(); */
         }
