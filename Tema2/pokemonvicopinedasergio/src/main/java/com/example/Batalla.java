@@ -82,8 +82,7 @@ public class Batalla {
         System.out.println();
 
         String sql = "SELECT b.id, b.ganador_id, b.perdedor_id, b.fecha FROM batallas b "
-                +
-                "INNER JOIN entrenadores e ON b.ganador_id = e.id OR b.perdedor_id = e.id WHERE e.id = ?";
+                + "INNER JOIN entrenadores e ON b.ganador_id = e.id OR b.perdedor_id = e.id WHERE e.id = ?";
 
         try {
             PreparedStatement pstmt = DBConnection.con().prepareStatement(sql);
@@ -91,7 +90,6 @@ public class Batalla {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                /* int id = rs.getInt("id"); */
                 String ganadorId = rs.getString("ganador_id");
                 String perdedorId = rs.getString("perdedor_id");
                 String fecha = rs.getString("fecha");
@@ -117,19 +115,16 @@ public class Batalla {
             ResultSet rs = stmt.executeQuery(leerBatallas);
 
             while (rs.next()) {
-                /* int id = rs.getInt("id"); */
-                String fecha = rs.getString("fecha");
                 String ganadorId = rs.getString("ganador_id");
                 String perdedorId = rs.getString("perdedor_id");
+                String fecha = rs.getString("fecha");
 
-                String nombreGanador = "", nombrePerdedor = "";
-
-                nombreGanador = Entrenador.getNombre(Integer.parseInt(ganadorId));
-                nombrePerdedor = Entrenador.getNombre(Integer.parseInt(perdedorId));
+                String nombreGanador = Entrenador.getNombre(Integer.parseInt(ganadorId));
+                String nombrePerdedor = Entrenador.getNombre(Integer.parseInt(perdedorId));
 
                 System.out.println("Fecha: " + fecha +
-                        ", Ganador: " + nombreGanador + " (" + ganadorId + "), Perdedor: " + nombrePerdedor + " ("
-                        + perdedorId + ")");
+                        " | Ganador: " + nombreGanador + " (" + ganadorId + ") y Perdedor: " + nombrePerdedor +
+                        " (" + perdedorId + ")");
             }
         } catch (SQLException e) {
             System.out.println("Error al leer las batallas: " + e.getClass());
