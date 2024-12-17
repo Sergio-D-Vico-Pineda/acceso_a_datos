@@ -40,7 +40,7 @@ public class Pokemon {
         do {
             try {
                 if (!(imprimirTexto.length > 0))
-                System.out.printf("Ingrese el %s del pokémon: ", texto);
+                    System.out.printf("Ingrese el %s del pokémon: ", texto);
                 nivel = input.nextInt();
                 input.nextLine();
                 if (nivel <= 0) {
@@ -81,6 +81,25 @@ public class Pokemon {
         return false;
     }
 
+    // Comprueba si hay pokemons en la base de datos, devuelve true o false
+    public static boolean hayPokemons() {
+
+        String hayPokemonsSQL = "SELECT * FROM pokemons";
+
+        try {
+            Statement stmt = DBConnection.con().createStatement();
+            ResultSet rs = stmt.executeQuery(hayPokemonsSQL);
+
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al comprobar si hay pokémon: " + e.getClass());
+        }
+        return false;
+    }
+
+    // Muestra por pantalla la información de un pokemon
     public static void info(int id) {
 
         String infoSQL = "SELECT * FROM pokemons WHERE id = ?";
@@ -123,6 +142,26 @@ public class Pokemon {
             System.out.println("Error al leer pokémon: " + e.getClass());
         }
         return nombre;
+    }
+
+    // Comprueba si la tabla entrenador_pokemon esta vacia, devuelve true si no lo
+    // está o false si lo esta
+    public static boolean hayPokemonsAsignados() {
+
+        String pokemonsAsignadosSQL = "SELECT * FROM entrenador_pokemon";
+
+        try {
+            Statement stmt = DBConnection.con().createStatement();
+            ResultSet rs = stmt.executeQuery(pokemonsAsignadosSQL);
+
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al comprobar si hay pokemons: " + e.getClass());
+        }
+
+        return false;
     }
 
     public static void agregarPokemon(String nombre, String tipo, String tipoSec, int nivel) {

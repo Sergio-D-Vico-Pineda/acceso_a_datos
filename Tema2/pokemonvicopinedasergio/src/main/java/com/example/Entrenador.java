@@ -79,6 +79,25 @@ public class Entrenador {
         return false;
     }
 
+    // Comprueba si hay entrenadores en la base de datos, devuelve true o false
+    public static boolean hayEntrenadores() {
+
+        String hayEntrenadoresSQL = "SELECT * FROM entrenadores";
+
+        try {
+            Statement stmt = DBConnection.con().createStatement();
+            ResultSet rs = stmt.executeQuery(hayEntrenadoresSQL);
+
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al comprobar si hay entrenadores: " + e.getClass());
+        }
+        return false;
+    }
+
+    // Muestra por pantalla la información de un entrenador
     public static void info(int id) {
         /*
          * if (!existeEntrenador(id))
