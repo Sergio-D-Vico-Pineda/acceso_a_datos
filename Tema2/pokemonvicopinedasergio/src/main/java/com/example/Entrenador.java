@@ -139,11 +139,7 @@ public class Entrenador {
     // Muestra por pantalla la información de un entrenador o una lista de todos
     public static void leerEntrenadores(String strIdEnt) {
 
-        System.out.println(
-                "Id de un entrenador para ver sus detalles, cualquier otra cosa para ver todos los entrenadores.");
-        String strIdEnt = escribir("id");
         int idEnt;
-        System.out.println("");
 
         try {
             idEnt = Integer.parseInt(strIdEnt);
@@ -222,6 +218,9 @@ public class Entrenador {
                 pstmt.executeUpdate();
 
                 System.out.println("Entrenador eliminado con exito.");
+            } catch (SQLIntegrityConstraintViolationException e) {
+                System.out.println(
+                        "ERROR: El entrenador no se puede eliminar debido a que tiene asignados al menos a un pokémon o ha participado en al menos una batalla.");
             } catch (SQLException e) {
                 System.out.println("Error al eliminar entrenador: " + e.getClass());
             }
@@ -235,13 +234,10 @@ public class Entrenador {
     public static void asignarEntrenadorPokemon(int idEnt, int idPok) {
 
         String asignarPokemonSQL = "INSERT INTO entrenador_pokemon (entrenador_id, pokemon_id) VALUES (?, ?)";
-        // String asignarPokemonSQL = "INSERT INTO entrenador_pokemon (entrenador_id,
-        // pokemon_id, fecha) VALUES (?, ?, ?)";
-        System.out.println("");
-
         String nombreEntrenador = getNombre(idEnt);
         String nombrePokemon = Pokemon.getNombre(idPok);
 
+        System.out.println("");
         try {
             PreparedStatement pstmt = DBConnection.con().prepareStatement(asignarPokemonSQL);
             pstmt.setInt(1, idEnt);
@@ -263,11 +259,10 @@ public class Entrenador {
     public static void desasignarEntrenadorPokemon(int idEnt, int idPok) {
 
         String eliminarPokemonSQL = "DELETE FROM entrenador_pokemon WHERE entrenador_id = ? AND pokemon_id = ?";
-        System.out.println("");
-
         String nombreEntrenador = getNombre(idEnt);
         String nombrePokemon = Pokemon.getNombre(idPok);
 
+        System.out.println("");
         try {
             PreparedStatement pstmt = DBConnection.con().prepareStatement(eliminarPokemonSQL);
             pstmt.setInt(1, idEnt);

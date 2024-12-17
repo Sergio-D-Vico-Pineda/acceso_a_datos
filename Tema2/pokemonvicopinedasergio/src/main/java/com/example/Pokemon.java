@@ -231,6 +231,9 @@ public class Pokemon {
                 pstmt.executeUpdate();
 
                 System.out.println("Pokémon eliminado con exito.");
+            } catch (SQLIntegrityConstraintViolationException e) {
+                System.out.println(
+                        "ERROR: El pokémon no se puede eliminar debido a que está asignado al menos a un entrenador.");
             } catch (SQLException e) {
                 System.out.println("Error al eliminar pokémon: " + e.getClass());
             }
