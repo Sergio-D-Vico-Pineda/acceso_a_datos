@@ -5,7 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static String URL = "jdbc:mysql://localhost:3306/digglets";
+    
+    private static String URL = "jdbc:mysql://localhost:3306/digglets"; // Aqui hay que pooner el nombre de la base de datos
     private static String USER = "root";
     private static String PASS = "root";
     private static Connection conn = null;
@@ -15,9 +16,9 @@ public class DBConnection {
     }
 
     public static boolean crearConexion() {
-        conn = null;
         try {
             conn = DriverManager.getConnection(URL, USER, PASS);
+            DBCreation.crearTablas();
         } catch (SQLException e) {
             System.out.println("Posiblemente la base de datos no se haya iniciado. Error:");
             System.out.println("--------------------------------------------------");
