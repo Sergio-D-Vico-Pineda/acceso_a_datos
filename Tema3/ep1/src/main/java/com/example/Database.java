@@ -18,6 +18,7 @@ public class Database {
     public static boolean crearConexion() {
         try {
             conn = DriverManager.getConnection(URL, USER, PASS);
+            conn.setAutoCommit(false);
         } catch (SQLException e) {
             System.out.println("Posiblemente la base de datos no se haya iniciado. Error:");
             System.out.println(e.getMessage());
