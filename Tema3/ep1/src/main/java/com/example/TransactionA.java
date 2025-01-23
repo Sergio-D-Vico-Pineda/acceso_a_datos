@@ -21,8 +21,8 @@ public class TransactionA implements Runnable {
             pstmt.setInt(2, 1);
             pstmt.executeUpdate();
 
-            System.out.println("Presiona enter para finalizar la transaccion");
-            sc.nextLine();
+            /* System.out.println("Presiona enter para finalizar la transaccion");
+            sc.nextLine(); */
 
             conn.commit();
         } catch (SQLException e) {
