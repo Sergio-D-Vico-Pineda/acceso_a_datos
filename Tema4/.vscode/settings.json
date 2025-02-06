@@ -1,0 +1,6 @@
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.project.sourcePaths": [
+        "FinalVicoPinedaSergio/src/main/java/com/gestion/entities"
+    ]
+}
