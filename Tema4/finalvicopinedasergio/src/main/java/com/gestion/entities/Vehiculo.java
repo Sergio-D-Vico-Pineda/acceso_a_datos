@@ -10,25 +10,52 @@ public class Vehiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idVehiculo;
-    
+
     @Column(unique = true)
     private String matricula;
     private String marca;
     private String modelo;
     private int añoFabricacion;
     private BigDecimal precio;
-    
+
     @ManyToOne
     @JoinColumn(name = "id_propietario")
     private Propietario propietario;
-    
+
     @ManyToOne
     @JoinColumn(name = "id_tipo")
     private TipoVehiculo tipo;
-    
+
     @OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL)
     private List<HistorialMantenimiento> historialesMantenimiento;
-    
+
+    public Vehiculo(int idVehiculo, String matricula, String marca, String modelo, int añoFabricacion,
+            BigDecimal precio,
+            Propietario propietario, TipoVehiculo tipo) {
+        this.idVehiculo = idVehiculo;
+        this.matricula = matricula;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.añoFabricacion = añoFabricacion;
+        this.precio = precio;
+        this.propietario = propietario;
+        this.tipo = tipo;
+    }
+
+    public Vehiculo(String matricula, String marca, String modelo, int añoFabricacion, BigDecimal precio,
+            Propietario propietario, TipoVehiculo tipo) {
+        this.matricula = matricula;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.añoFabricacion = añoFabricacion;
+        this.precio = precio;
+        this.propietario = propietario;
+        this.tipo = tipo;
+    }
+
+    public Vehiculo() {
+    }
+
     // Getters and Setters
     public int getIdVehiculo() {
         return idVehiculo;

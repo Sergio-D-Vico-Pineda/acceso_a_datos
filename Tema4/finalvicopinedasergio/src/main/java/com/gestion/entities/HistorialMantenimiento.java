@@ -10,14 +10,26 @@ public class HistorialMantenimiento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idMantenimiento;
-    
+
     @ManyToOne
     @JoinColumn(name = "id_vehiculo")
     private Vehiculo vehiculo;
     private Date fecha;
     private String descripcion;
     private BigDecimal coste;
-    
+
+    public HistorialMantenimiento(int idMantenimiento, Vehiculo vehiculo, Date fecha, String descripcion,
+            BigDecimal coste) {
+        this.idMantenimiento = idMantenimiento;
+        this.vehiculo = vehiculo;
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+        this.coste = coste;
+    }
+
+    public HistorialMantenimiento() {
+    }
+
     // Getters and Setters
     public int getIdMantenimiento() {
         return idMantenimiento;

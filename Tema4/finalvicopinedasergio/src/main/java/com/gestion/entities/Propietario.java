@@ -14,10 +14,28 @@ public class Propietario {
     @Column(unique = true)
     private String dni;
     private String telefono;
-    
+
     @OneToMany(mappedBy = "propietario", cascade = CascadeType.ALL)
     private List<Vehiculo> vehiculos;
-    
+
+    public Propietario(String nombre, String apellido, String dni, String telefono) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.dni = dni;
+        this.telefono = telefono;
+    }
+
+    public Propietario(int idPropietario, String nombre, String apellido, String dni, String telefono) {
+        this.idPropietario = idPropietario;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.dni = dni;
+        this.telefono = telefono;
+    }
+
+    public Propietario() {
+    }
+
     // Getters and Setters
     public int getIdPropietario() {
         return idPropietario;

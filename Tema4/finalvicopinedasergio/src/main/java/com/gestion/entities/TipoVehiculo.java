@@ -15,11 +15,17 @@ public class TipoVehiculo {
     private List<Vehiculo> vehiculos;
 
     // Constructor
+    public TipoVehiculo(int idTipo, String tipo) {
+        this.idTipo = idTipo;
+        this.tipo = tipo;
+    }
+
     public TipoVehiculo(String tipo) {
         this.tipo = tipo;
     }
 
-    public TipoVehiculo() {}
+    public TipoVehiculo() {
+    }
 
     // Getters and Setters
     public int getIdTipo() {

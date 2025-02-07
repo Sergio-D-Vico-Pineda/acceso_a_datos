@@ -3,8 +3,8 @@ package com.gestion;
 import com.gestion.dao.*;
 import com.gestion.entities.*;
 import com.gestion.utils.HibernateUtil;
+import com.gestion.utils.XmlGenerator;
 
-import java.io.*;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,6 +14,7 @@ import java.util.Scanner;
 
 public class Main {
 
+    private static XmlGenerator xmlGenerator = new XmlGenerator();
     private static Scanner input = new Scanner(System.in);
     private static VehiculoDAO vehiculoDAO = new VehiculoDAO();
     private static PropietarioDAO propietarioDAO = new PropietarioDAO();
@@ -39,6 +40,7 @@ public class Main {
 
             try {
                 opcion = input.nextInt();
+                System.out.println("");
             } catch (Exception e) {
                 opcion = -1;
             }
@@ -60,6 +62,7 @@ public class Main {
             if (!salir) {
                 System.out.println("");
                 System.out.print("Presiona ENTER para continuar...");
+                input.nextLine();
                 System.out.println("");
             }
         }
@@ -95,8 +98,27 @@ public class Main {
         System.out.print("Precio: ");
         BigDecimal precio = input.nextBigDecimal();
         input.nextLine(); // Limpiar buffer
-        System.out.print("ID del propietario: ");
-        int idPropietario = input.nextInt();
+
+        System.out.println("Propietarios disponibles:");
+        for (Propietario propietario : propietarios) {
+            System.out.println(
+                    propietario.getIdPropietario() + ". " + propietario.getNombre() + " " + propietario.getApellido());
+        }
+
+        Propietario propietario = null;
+        while (propietario == null) {
+            System.out.print("ID del propietario (pon 0 para salir): ");
+            int idPropietarioSeleccionado = input.nextInt();
+            input.nextLine(); // Limpiar buffer
+            if (idPropietarioSeleccionado == 0) {
+                return;
+            }
+            propietario = propietarioDAO.get(idPropietarioSeleccionado);
+            if (propietario == null) {
+                System.out.println("El propietario con ID " + idPropietarioSeleccionado + " no existe.");
+            }
+        }
+
         System.out.println("Tipos de vehículos disponibles:");
         List<TipoVehiculo> tipos = tipoVehiculoDAO.getAll();
         for (TipoVehiculo tipo : tipos) {
@@ -107,88 +129,17 @@ public class Main {
         int idTipo = input.nextInt();
         input.nextLine(); // Limpiar buffer
 
-        Vehiculo vehiculo = new Vehiculo();
-        vehiculo.setMatricula(matricula);
-        vehiculo.setMarca(marca);
-        vehiculo.setModelo(modelo);
-        vehiculo.setAñoFabricacion(añoFabricacion);
-        vehiculo.setPrecio(precio);
-        vehiculo.setPropietario(propietarioDAO.get(idPropietario));
-        vehiculo.setTipo(tipoVehiculoDAO.get(idTipo));
+        Vehiculo vehiculo = new Vehiculo(
+                matricula,
+                marca,
+                modelo,
+                añoFabricacion,
+                precio,
+                propietario,
+                tipoVehiculoDAO.get(idTipo));
 
         vehiculoDAO.save(vehiculo);
         System.out.println("Vehículo guardado en BD.");
-    }
-
-    private static void registrarVehiculo2() {
-        System.out.print("Matrícula: ");
-        String matricula = input.nextLine();
-        System.out.print("Marca: ");
-        String marca = input.nextLine();
-        System.out.print("Modelo: ");
-        String modelo = input.nextLine();
-        System.out.print("Año de fabricación: ");
-        int añoFabricacion = input.nextInt();
-        System.out.print("Precio: ");
-        BigDecimal precio = input.nextBigDecimal();
-        input.nextLine(); // Limpiar buffer
-
-        System.out.print("¿Desea guardar en MySQL? (s/n): ");
-        char guardarEnBD = input.nextLine().charAt(0);
-        if (guardarEnBD == 's') {
-            guardarVehiculoEnBD(matricula, marca, modelo, añoFabricacion, precio);
-        } else {
-            System.out.print("¿Desea guardar en TXT? (s/n): ");
-            char guardarEnTXT = input.nextLine().charAt(0);
-            if (guardarEnTXT == 's') {
-                guardarVehiculoEnTXT(matricula, marca, modelo, añoFabricacion, precio);
-            } else {
-                System.out.print("¿Desea guardar en XML? (s/n): ");
-                char guardarEnXML = input.nextLine().charAt(0);
-                if (guardarEnXML == 's') {
-                    guardarVehiculoEnXML(matricula, marca, modelo, añoFabricacion, precio);
-                }
-            }
-        }
-    }
-
-    private static void guardarVehiculoEnBD(String matricula, String marca, String modelo, int añoFabricacion,
-            BigDecimal precio) {
-        Vehiculo vehiculo = new Vehiculo();
-        vehiculo.setMatricula(matricula);
-        vehiculo.setMarca(marca);
-        vehiculo.setModelo(modelo);
-        vehiculo.setAñoFabricacion(añoFabricacion);
-        vehiculo.setPrecio(precio);
-
-        vehiculoDAO.save(vehiculo);
-        System.out.println("Vehículo guardado en BD.");
-    }
-
-    private static void guardarVehiculoEnTXT(String matricula, String marca, String modelo, int añoFabricacion,
-            BigDecimal precio) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("vehiculos.txt", true))) {
-            writer.println(matricula + "," + marca + "," + modelo + "," + añoFabricacion + "," + precio);
-            System.out.println("Vehículo guardado en TXT.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void guardarVehiculoEnXML(String matricula, String marca, String modelo, int añoFabricacion,
-            BigDecimal precio) {
-        try (FileWriter fileWriter = new FileWriter("vehiculos.xml", true)) {
-            fileWriter.write("<vehiculo>\n");
-            fileWriter.write("    <matricula>" + matricula + "</matricula>\n");
-            fileWriter.write("    <marca>" + marca + "</marca>\n");
-            fileWriter.write("    <modelo>" + modelo + "</modelo>\n");
-            fileWriter.write("    <añoFabricacion>" + añoFabricacion + "</añoFabricacion>\n");
-            fileWriter.write("    <precio>" + precio + "</precio>\n");
-            fileWriter.write("</vehiculo>\n");
-            System.out.println("Vehículo guardado en XML.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private static void registrarPropietario() {
@@ -201,11 +152,11 @@ public class Main {
         System.out.print("Teléfono: ");
         String telefono = input.nextLine();
 
-        Propietario propietario = new Propietario();
-        propietario.setNombre(nombre);
-        propietario.setApellido(apellido);
-        propietario.setDni(dni);
-        propietario.setTelefono(telefono);
+        Propietario propietario = new Propietario(
+                nombre,
+                apellido,
+                dni,
+                telefono);
 
         propietarioDAO.save(propietario);
         System.out.println("Propietario guardado en BD.");
@@ -213,8 +164,12 @@ public class Main {
 
     private static void mostrarTodosLosVehiculos() {
         List<Vehiculo> vehiculos = vehiculoDAO.getAll();
-        for (Vehiculo vehiculo : vehiculos) {
-            System.out.println(vehiculo);
+        if (vehiculos.isEmpty()) {
+            System.out.println("No hay vehículos registrados.");
+        } else {
+            for (Vehiculo vehiculo : vehiculos) {
+                System.out.println(vehiculo);
+            }
         }
     }
 
@@ -222,7 +177,7 @@ public class Main {
         System.out.print("Matrícula: ");
         String matricula = input.nextLine();
 
-        Vehiculo vehiculo = vehiculoDAO.get(matricula);
+        Vehiculo vehiculo = vehiculoDAO.getByMatricula(matricula);
         if (vehiculo != null) {
             System.out.println(vehiculo);
         } else {
@@ -231,8 +186,32 @@ public class Main {
     }
 
     private static void registrarMantenimiento() {
-        System.out.print("Matrícula del vehículo: ");
-        String matricula = input.nextLine();
+        List<Vehiculo> vehiculos = vehiculoDAO.getAll();
+
+        if (vehiculos.isEmpty()) {
+            System.out.println("No hay vehículos registrados.");
+            return;
+        }
+
+        System.out.println("Vehículos disponibles:");
+        for (int i = 0; i < vehiculos.size(); i++) {
+            System.out.println((i + 1) + ". " + vehiculos.get(i).getMatricula());
+        }
+
+        Vehiculo vehiculo = null;
+        while (vehiculo == null) {
+            System.out.print("ID del vehículo (no pongas nada para salir): ");
+            String MatriculaVehiculo = input.nextLine();
+            if (MatriculaVehiculo.isEmpty()) {
+                return;
+                // break;
+            }
+            vehiculo = vehiculoDAO.get(MatriculaVehiculo);
+            if (vehiculo == null) {
+                System.out.println("El vehículo con matrícula '" + MatriculaVehiculo + "' no existe.");
+            }
+        }
+
         System.out.print("Fecha (dd/MM/yyyy): ");
         String fechaStr = input.nextLine();
         System.out.print("Descripción: ");
@@ -245,19 +224,14 @@ public class Main {
         try {
             Date fecha = dateFormat.parse(fechaStr);
 
-            Vehiculo vehiculo = vehiculoDAO.get(matricula);
-            if (vehiculo != null) {
-                HistorialMantenimiento mantenimiento = new HistorialMantenimiento();
-                mantenimiento.setVehiculo(vehiculo);
-                mantenimiento.setFecha(fecha);
-                mantenimiento.setDescripcion(descripcion);
-                mantenimiento.setCoste(coste);
+            HistorialMantenimiento mantenimiento = new HistorialMantenimiento();
+            mantenimiento.setVehiculo(vehiculo);
+            mantenimiento.setFecha(fecha);
+            mantenimiento.setDescripcion(descripcion);
+            mantenimiento.setCoste(coste);
 
-                historialMantenimientoDAO.save(mantenimiento);
-                System.out.println("Mantenimiento registrado en BD.");
-            } else {
-                System.out.println("Vehículo no encontrado.");
-            }
+            historialMantenimientoDAO.save(mantenimiento);
+            System.out.println("Mantenimiento registrado en BD.");
         } catch (ParseException e) {
             e.printStackTrace();
         }
