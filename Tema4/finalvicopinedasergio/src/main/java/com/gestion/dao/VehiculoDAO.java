@@ -88,7 +88,7 @@ public class VehiculoDAO {
             // Obtener el resultado único
             vehiculo = query.uniqueResult();
         } catch (Exception e) {
-            e.printStackTrace(); // O usar un sistema de logs
+            e.printStackTrace();
         } finally {
             session.close();
         }

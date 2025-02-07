@@ -26,7 +26,7 @@ public class Vehiculo {
     @JoinColumn(name = "id_tipo")
     private TipoVehiculo tipo;
 
-    @OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "vehiculo", cascade = CascadeType.ALL)
     private List<HistorialMantenimiento> historialesMantenimiento;
 
     public Vehiculo(int idVehiculo, String matricula, String marca, String modelo, int añoFabricacion,
@@ -131,15 +131,26 @@ public class Vehiculo {
 
     @Override
     public String toString() {
-        return "Vehiculo{" +
-                "idVehiculo=" + idVehiculo +
-                ", matricula='" + matricula + '\'' +
-                ", marca='" + marca + '\'' +
-                ", modelo='" + modelo + '\'' +
-                ", añoFabricacion=" + añoFabricacion +
-                ", precio=" + precio +
-                ", propietario=" + propietario.getNombre() + " " + propietario.getApellido() +
-                ", tipo=" + tipo.getTipo() +
-                '}';
+        return String.format(
+                "(%d) Vehiculo %s - matricula '%s', marca '%s', modelo '%s', año '%d', precio '%,.2f', es de '%s %s'",
+                idVehiculo, tipo.getTipo(), matricula, marca, modelo, añoFabricacion, precio, propietario.getNombre(),
+                propietario.getApellido());
     }
+
+    /*
+     * @Override
+     * public String toString() {
+     * return "Vehiculo{" +
+     * "idVehiculo=" + idVehiculo +
+     * ", matricula='" + matricula + '\'' +
+     * ", marca='" + marca + '\'' +
+     * ", modelo='" + modelo + '\'' +
+     * ", añoFabricacion=" + añoFabricacion +
+     * ", precio=" + precio +
+     * ", propietario=" + propietario.getNombre() + " " + propietario.getApellido()
+     * +
+     * ", tipo=" + tipo.getTipo() +
+     * '}';
+     * }
+     */
 }
