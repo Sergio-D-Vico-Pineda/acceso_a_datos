@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import org.hibernate.Hibernate;
+
 public class Main {
 
     private static XmlGenerator xmlGenerator = new XmlGenerator();
@@ -258,7 +260,7 @@ public class Main {
         BigDecimal nuevoPrecio = input.nextBigDecimal();
         input.nextLine(); // Limpiar buffer
 
-        Vehiculo vehiculo = vehiculoDAO.get(matricula);
+        Vehiculo vehiculo = vehiculoDAO.getByMatricula(matricula);
         if (vehiculo != null) {
             vehiculo.setPrecio(nuevoPrecio);
             vehiculoDAO.update(vehiculo);
@@ -272,8 +274,9 @@ public class Main {
         System.out.print("Matrícula del vehículo: ");
         String matricula = input.nextLine();
 
-        Vehiculo vehiculo = vehiculoDAO.get(matricula);
+        Vehiculo vehiculo = vehiculoDAO.getByMatricula(matricula);
         if (vehiculo != null) {
+            // Hibernate.initialize(vehiculo.getHistorialesMantenimiento());
             if (vehiculo.getHistorialesMantenimiento() != null && !vehiculo.getHistorialesMantenimiento().isEmpty()) {
                 System.out.print("Este vehículo tiene mantenimientos registrados. ¿Desea eliminarlo? (s/n): ");
                 char confirmacion = input.nextLine().charAt(0);
