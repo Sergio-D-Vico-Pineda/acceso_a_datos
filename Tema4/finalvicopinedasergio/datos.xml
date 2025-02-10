@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Datos>
+      
+  
+  <TiposVehiculo>
+            
+    
+    <TipoVehiculo idTipo="11">
+                  
+      
+      <tipo>Sedán</tipo>
+                
+    
+    </TipoVehiculo>
+            
+    
+    <TipoVehiculo idTipo="12">
+                  
+      
+      <tipo>SUV</tipo>
+                
+    
+    </TipoVehiculo>
+            
+    
+    <TipoVehiculo idTipo="13">
+                  
+      
+      <tipo>Deportivo</tipo>
+                
+    
+    </TipoVehiculo>
+            
+    
+    <TipoVehiculo idTipo="14">
+                  
+      
+      <tipo>Camioneta</tipo>
+                
+    
+    </TipoVehiculo>
+            
+    
+    <TipoVehiculo idTipo="15">
+                  
+      
+      <tipo>Moto</tipo>
+                
+    
+    </TipoVehiculo>
+          
+  
+  </TiposVehiculo>
+      
+  
+  <Vehiculos>
+            
+    
+    <Vehiculo idVehiculo="7">
+                  
+      
+      <matricula>12345A</matricula>
+                  
+      
+      <marca>B</marca>
+                  
+      
+      <modelo>C</modelo>
+                  
+      
+      <añoFabricacion>1234</añoFabricacion>
+                  
+      
+      <precio>10.00</precio>
+                  
+      
+      <idPropietario>4</idPropietario>
+                  
+      
+      <idTipo>11</idTipo>
+                
+    
+    </Vehiculo>
+          
+  
+  </Vehiculos>
+      
+  
+  <Propietarios>
+            
+    
+    <Propietario idPropietario="4">
+                  
+      
+      <nombre>Luis</nombre>
+                  
+      
+      <apellido>alme</apellido>
+                  
+      
+      <dni>1234567</dni>
+                  
+      
+      <telefono>5654321</telefono>
+                
+    
+    </Propietario>
+          
+  
+  </Propietarios>
+      
+  
+  <HistorialMantenimiento/>
+    
+
+</Datos>

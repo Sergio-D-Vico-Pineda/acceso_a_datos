@@ -12,23 +12,11 @@ import com.gestion.entities.*;
 public class HibernateUtil {
     private static final SessionFactory sessionFactory;
 
-    /* private static SessionFactory buildSessionFactory() {
-        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure() // configures settings from hibernate.cfg.xml
-                .build();
-        try {
-            return new MetadataSources(registry).buildMetadata().buildSessionFactory();
-        } catch (Exception e) {
-            StandardServiceRegistryBuilder.destroy(registry);
-            throw new ExceptionInInitializerError("Initial SessionFactory creation failed." + e);
-        }
-    } */
-
     static {
         try {
             sessionFactory = new Configuration().configure().buildSessionFactory();
         } catch (Throwable ex) {
-            System.err.println("AAAAAAAAAAAaInitial SessionFactory creation failed." + ex);
+            System.err.println("Initial SessionFactory creation failed." + ex);
             throw new ExceptionInInitializerError(ex);
         }
     }
@@ -45,6 +33,20 @@ public class HibernateUtil {
             session.persist(new TipoVehiculo("Moto"));
             tx.commit();
         }
+        session.close();
+    }
+
+    public static void fromDbtoXml(XmlGenerator xmlGenerator) {
+        Session session = getSessionFactory().openSession();
+
+        List<TipoVehiculo> tipoVehiculos = session.createQuery("from TipoVehiculo", TipoVehiculo.class).list();
+        List<Vehiculo> vehiculos = session.createQuery("from Vehiculo", Vehiculo.class).list();
+        List<Propietario> propietarios = session.createQuery("from Propietario", Propietario.class).list();
+        List<HistorialMantenimiento> historiales = session
+                .createQuery("from HistorialMantenimiento", HistorialMantenimiento.class).list();
+
+        xmlGenerator.syncronize(tipoVehiculos, vehiculos, propietarios, historiales);
+
         session.close();
     }
 

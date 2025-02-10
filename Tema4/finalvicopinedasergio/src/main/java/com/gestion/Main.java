@@ -12,11 +12,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import org.hibernate.Hibernate;
-
 public class Main {
 
-    private static XmlGenerator xmlGenerator = new XmlGenerator();
+    private static XmlGenerator xmlGenerator = new XmlGenerator("datos.xml");
     private static Scanner input = new Scanner(System.in);
     private static VehiculoDAO vehiculoDAO = new VehiculoDAO();
     private static PropietarioDAO propietarioDAO = new PropietarioDAO();
@@ -75,6 +73,10 @@ public class Main {
     }
 
     private static void salir() {
+        System.out.println("Guardando en XML...");
+        HibernateUtil.fromDbtoXml(xmlGenerator);
+        System.out.println("XML guardado.");
+        System.out.println("-------------");
         System.out.println("Hasta luego!");
         salir = true;
         HibernateUtil.shutdown();
@@ -140,6 +142,7 @@ public class Main {
                 propietario,
                 tipoVehiculoDAO.get(idTipo));
 
+        // xmlGenerator.addOrUpdateVehiculo(vehiculo);
         vehiculoDAO.save(vehiculo);
         System.out.println("Vehículo guardado en BD.");
     }
@@ -160,6 +163,7 @@ public class Main {
                 dni,
                 telefono);
 
+        // xmlGenerator.addOrUpdatePropietario(propietario);
         propietarioDAO.save(propietario);
         System.out.println("Propietario guardado en BD.");
     }
@@ -169,6 +173,8 @@ public class Main {
         if (vehiculos.isEmpty()) {
             System.out.println("No hay vehículos registrados.");
         } else {
+            System.out.println("Lista de vehículos:");
+            System.out.println("");
             for (Vehiculo vehiculo : vehiculos) {
                 System.out.println(vehiculo);
             }
@@ -180,6 +186,7 @@ public class Main {
         String matricula = input.nextLine();
 
         Vehiculo vehiculo = vehiculoDAO.getByMatricula(matricula);
+        System.out.println("");
         if (vehiculo != null) {
             System.out.println(vehiculo);
         } else {
@@ -208,7 +215,7 @@ public class Main {
                 return;
                 // break;
             }
-            vehiculo = vehiculoDAO.get(MatriculaVehiculo);
+            vehiculo = vehiculoDAO.getByMatricula(MatriculaVehiculo);
             if (vehiculo == null) {
                 System.out.println("El vehículo con matrícula '" + MatriculaVehiculo + "' no existe.");
             }
@@ -232,6 +239,7 @@ public class Main {
             mantenimiento.setDescripcion(descripcion);
             mantenimiento.setCoste(coste);
 
+            // xmlGenerator.addOrUpdateHistorialMantenimiento(mantenimiento);
             historialMantenimientoDAO.save(mantenimiento);
             System.out.println("Mantenimiento registrado en BD.");
         } catch (ParseException e) {
@@ -240,6 +248,18 @@ public class Main {
     }
 
     private static void listarHistorialMantenimientos() {
+        List<Vehiculo> vehiculos = vehiculoDAO.getAll();
+
+        if (vehiculos.isEmpty()) {
+            System.out.println("No hay vehículos registrados.");
+            return;
+        }
+
+        System.out.println("Vehículos disponibles:");
+        for (int i = 0; i < vehiculos.size(); i++) {
+            System.out.println((i + 1) + ". " + vehiculos.get(i).getMatricula());
+        }
+
         System.out.print("Matrícula del vehículo: ");
         String matricula = input.nextLine();
 
@@ -254,6 +274,19 @@ public class Main {
     }
 
     private static void actualizarPrecioVehiculo() {
+
+        List<Vehiculo> vehiculos = vehiculoDAO.getAll();
+
+        if (vehiculos.isEmpty()) {
+            System.out.println("No hay vehículos registrados.");
+            return;
+        }
+
+        System.out.println("Vehículos disponibles:");
+        for (int i = 0; i < vehiculos.size(); i++) {
+            System.out.println((i + 1) + ". " + vehiculos.get(i).getMatricula());
+        }
+
         System.out.print("Matrícula del vehículo: ");
         String matricula = input.nextLine();
         System.out.print("Nuevo precio: ");
@@ -264,6 +297,7 @@ public class Main {
         if (vehiculo != null) {
             vehiculo.setPrecio(nuevoPrecio);
             vehiculoDAO.update(vehiculo);
+            // xmlGenerator.addOrUpdateVehiculo(vehiculo);
             System.out.println("Precio actualizado.");
         } else {
             System.out.println("Vehículo no encontrado.");
@@ -271,6 +305,19 @@ public class Main {
     }
 
     private static void eliminarVehiculo() {
+
+        List<Vehiculo> vehiculos = vehiculoDAO.getAll();
+
+        if (vehiculos.isEmpty()) {
+            System.out.println("No hay vehículos registrados.");
+            return;
+        }
+
+        System.out.println("Vehículos disponibles:");
+        for (int i = 0; i < vehiculos.size(); i++) {
+            System.out.println((i + 1) + ". " + vehiculos.get(i).getMatricula());
+        }
+
         System.out.print("Matrícula del vehículo: ");
         String matricula = input.nextLine();
 
