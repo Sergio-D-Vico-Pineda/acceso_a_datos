@@ -1,116 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Datos>
-      
-  
   <TiposVehiculo>
-            
-    
-    <TipoVehiculo idTipo="11">
-                  
-      
+    <TipoVehiculo idTipo="1">
       <tipo>Sedán</tipo>
-                
-    
     </TipoVehiculo>
-            
-    
-    <TipoVehiculo idTipo="12">
-                  
-      
+    <TipoVehiculo idTipo="2">
       <tipo>SUV</tipo>
-                
-    
     </TipoVehiculo>
-            
-    
-    <TipoVehiculo idTipo="13">
-                  
-      
+    <TipoVehiculo idTipo="3">
       <tipo>Deportivo</tipo>
-                
-    
     </TipoVehiculo>
-            
-    
-    <TipoVehiculo idTipo="14">
-                  
-      
+    <TipoVehiculo idTipo="4">
       <tipo>Camioneta</tipo>
-                
-    
     </TipoVehiculo>
-            
-    
-    <TipoVehiculo idTipo="15">
-                  
-      
+    <TipoVehiculo idTipo="5">
       <tipo>Moto</tipo>
-                
-    
     </TipoVehiculo>
-          
-  
   </TiposVehiculo>
-      
-  
   <Vehiculos>
-            
-    
-    <Vehiculo idVehiculo="7">
-                  
-      
-      <matricula>12345A</matricula>
-                  
-      
-      <marca>B</marca>
-                  
-      
-      <modelo>C</modelo>
-                  
-      
+    <Vehiculo idVehiculo="9">
+      <matricula>123</matricula>
+      <marca>a</marca>
+      <modelo>c</modelo>
       <añoFabricacion>1234</añoFabricacion>
-                  
-      
-      <precio>10.00</precio>
-                  
-      
-      <idPropietario>4</idPropietario>
-                  
-      
-      <idTipo>11</idTipo>
-                
-    
+      <precio>2.00</precio>
+      <idPropietario>8</idPropietario>
+      <idTipo>2</idTipo>
     </Vehiculo>
-          
-  
   </Vehiculos>
-      
-  
   <Propietarios>
-            
-    
     <Propietario idPropietario="4">
-                  
-      
       <nombre>Luis</nombre>
-                  
-      
       <apellido>alme</apellido>
-                  
-      
       <dni>1234567</dni>
-                  
-      
       <telefono>5654321</telefono>
-                
-    
     </Propietario>
-          
-  
+    <Propietario idPropietario="8">
+      <nombre>Scarpy</nombre>
+      <apellido>Dark</apellido>
+      <dni>234567</dni>
+      <telefono>123456</telefono>
+    </Propietario>
   </Propietarios>
-      
-  
-  <HistorialMantenimiento/>
-    
-
+  <HistorialMantenimientos/>
 </Datos>

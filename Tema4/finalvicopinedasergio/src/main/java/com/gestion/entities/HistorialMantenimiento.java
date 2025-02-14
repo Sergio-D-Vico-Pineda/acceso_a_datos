@@ -71,20 +71,9 @@ public class HistorialMantenimiento {
         this.coste = coste;
     }
 
-    
     @Override
     public String toString() {
         return String.format("[%d] - %tF descripción='%s', coste=%,.2f",
                 idMantenimiento, fecha, descripcion, coste);
     }
-
-    /* @Override
-    public String toString() {
-        return "HistorialMantenimiento{" +
-                "idMantenimiento=" + idMantenimiento +
-                ", fecha=" + fecha +
-                ", descripcion='" + descripcion + '\'' +
-                ", coste=" + coste +
-                '}';
-    } */
 }

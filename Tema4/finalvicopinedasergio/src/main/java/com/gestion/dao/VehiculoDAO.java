@@ -81,10 +81,10 @@ public class VehiculoDAO {
             // Crear la consulta HQL
             String hql = "FROM Vehiculo WHERE matricula = :matricula";
             Query<Vehiculo> query = session.createQuery(hql, Vehiculo.class);
-    
+
             // Establecer el parámetro
             query.setParameter("matricula", matricula);
-    
+
             // Obtener el resultado único
             vehiculo = query.uniqueResult();
         } catch (Exception e) {
@@ -93,6 +93,24 @@ public class VehiculoDAO {
             session.close();
         }
         return vehiculo;
+    }
+
+    public List<Vehiculo> getByPropietarioNull() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<Vehiculo> vehiculos = null;
+        try {
+            // Crear la consulta HQL
+            String hql = "FROM Vehiculo WHERE propietario IS NULL";
+            Query<Vehiculo> query = session.createQuery(hql, Vehiculo.class);
+
+            // Obtener el resultado único
+            vehiculos = query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return vehiculos;
     }
 
     public List<Vehiculo> getAll() {

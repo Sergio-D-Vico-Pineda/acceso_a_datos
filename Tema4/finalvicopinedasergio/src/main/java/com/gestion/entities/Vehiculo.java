@@ -53,6 +53,17 @@ public class Vehiculo {
         this.tipo = tipo;
     }
 
+    public Vehiculo(String matricula, String marca, String modelo, int añoFabricacion, BigDecimal precio,
+            TipoVehiculo tipo) {
+        this.matricula = matricula;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.añoFabricacion = añoFabricacion;
+        this.precio = precio;
+        this.propietario = null;
+        this.tipo = tipo;
+    }
+
     public Vehiculo() {
     }
 
@@ -131,26 +142,14 @@ public class Vehiculo {
 
     @Override
     public String toString() {
+        if (propietario == null) {
+            return String.format(
+                    "(%d) Vehiculo %s - matricula '%s', marca '%s', modelo '%s', año '%d', precio '%,.2f', sin propietario",
+                    idVehiculo, tipo.getTipo(), matricula, marca, modelo, añoFabricacion, precio);
+        }
         return String.format(
                 "(%d) Vehiculo %s - matricula '%s', marca '%s', modelo '%s', año '%d', precio '%,.2f', es de '%s %s'",
                 idVehiculo, tipo.getTipo(), matricula, marca, modelo, añoFabricacion, precio, propietario.getNombre(),
                 propietario.getApellido());
     }
-
-    /*
-     * @Override
-     * public String toString() {
-     * return "Vehiculo{" +
-     * "idVehiculo=" + idVehiculo +
-     * ", matricula='" + matricula + '\'' +
-     * ", marca='" + marca + '\'' +
-     * ", modelo='" + modelo + '\'' +
-     * ", añoFabricacion=" + añoFabricacion +
-     * ", precio=" + precio +
-     * ", propietario=" + propietario.getNombre() + " " + propietario.getApellido()
-     * +
-     * ", tipo=" + tipo.getTipo() +
-     * '}';
-     * }
-     */
 }

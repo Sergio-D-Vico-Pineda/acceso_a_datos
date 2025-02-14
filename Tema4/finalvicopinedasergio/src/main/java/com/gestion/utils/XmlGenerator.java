@@ -3,7 +3,6 @@ package com.gestion.utils;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -56,6 +55,111 @@ public class XmlGenerator {
             }
         } catch (ParserConfigurationException | IOException | org.xml.sax.SAXException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void listarHistorialMantenimientos(String matricula) {
+
+        Element historiales = getOrCreateElement(document.getDocumentElement(), "HistorialMantenimientos");
+        NodeList historialNodeList = historiales.getElementsByTagName("HistorialMantenimiento");
+        System.out.println("Historial de mantenimientos para la matrícula: " + matricula);
+
+        Element vehiculos = getOrCreateElement(document.getDocumentElement(), "Vehiculos");
+        NodeList vehiculoNodeList = vehiculos.getElementsByTagName("Vehiculo");
+        String idVehiculo = null;
+
+        for (int i = 0; i < vehiculoNodeList.getLength(); i++) {
+            Node vehiculoNode = vehiculoNodeList.item(i);
+            if (vehiculoNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element vehiculoElement = (Element) vehiculoNode;
+                if (vehiculoElement.getElementsByTagName("matricula").item(0).getTextContent().equals(matricula)) {
+                    idVehiculo = vehiculoElement.getAttribute("idVehiculo");
+                    break;
+                }
+            }
+        }
+
+        if (idVehiculo == null) {
+            System.out.println("No se encontró  el vehículo con matrícula: " + matricula);
+            return;
+        }
+
+        for (int i = 0; i < historialNodeList.getLength(); i++) {
+            Node historialNode = historialNodeList.item(i);
+            if (historialNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element historialElement = (Element) historialNode;
+                if (historialElement.getElementsByTagName("idVehiculo").item(0).getTextContent().equals(idVehiculo)) {
+                    String id = historialElement.getAttribute("idMantenimiento");
+                    String fecha = historialElement.getElementsByTagName("fecha").item(0).getTextContent();
+                    String descripcion = historialElement.getElementsByTagName("descripcion").item(0).getTextContent();
+                    String coste = historialElement.getElementsByTagName("coste").item(0).getTextContent();
+                    System.out.println(
+                            "[" + id + "]" + " - " + fecha + " descripción=" + descripcion + ", coste=" + coste);
+                }
+            }
+        }
+    }
+
+    public void buscarVehiculoPorMatriculaXml(String matricula) {
+        Element vehiculos = getOrCreateElement(document.getDocumentElement(), "Vehiculos");
+        NodeList vehiculoNodeList = vehiculos.getElementsByTagName("Vehiculo");
+        for (int i = 0; i < vehiculoNodeList.getLength(); i++) {
+            Node vehiculoNode = vehiculoNodeList.item(i);
+            if (vehiculoNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element vehiculoElement = (Element) vehiculoNode;
+                if (vehiculoElement.getElementsByTagName("matricula").item(0).getTextContent().equals(matricula)) {
+                    String idVehiculo = vehiculoElement.getAttribute("idVehiculo");
+                    String marca = vehiculoElement.getElementsByTagName("marca").item(0).getTextContent();
+                    String modelo = vehiculoElement.getElementsByTagName("modelo").item(0).getTextContent();
+                    String anoFabricacion = vehiculoElement.getElementsByTagName("añoFabricacion").item(0)
+                            .getTextContent();
+                    String precio = vehiculoElement.getElementsByTagName("precio").item(0).getTextContent();
+                    String idPropietario = vehiculoElement.getElementsByTagName("idPropietario").item(0)
+                            .getTextContent();
+
+                    Element propietarios = getOrCreateElement(document.getDocumentElement(), "Propietarios");
+                    NodeList propietarioNodeList = propietarios.getElementsByTagName("Propietario");
+                    String nombrePropietario = null;
+                    String apellidoPropietario = null;
+                    for (int j = 0; j < propietarioNodeList.getLength(); j++) {
+                        Node propietarioNode = propietarioNodeList.item(j);
+                        if (propietarioNode.getNodeType() == Node.ELEMENT_NODE) {
+                            Element propietarioElement = (Element) propietarioNode;
+                            if (propietarioElement.getAttribute("idPropietario").equals(idPropietario)) {
+                                nombrePropietario = propietarioElement.getElementsByTagName("nombre").item(0)
+                                        .getTextContent();
+                                apellidoPropietario = propietarioElement.getElementsByTagName("apellido").item(0)
+                                        .getTextContent();
+                                break;
+                            }
+                        }
+                    }
+
+                    String idTipo = vehiculoElement.getElementsByTagName("idTipo").item(0).getTextContent();
+
+                    Element tiposVehiculo = getOrCreateElement(document.getDocumentElement(), "TiposVehiculo");
+                    NodeList tipoVehiculoNodeList = tiposVehiculo.getElementsByTagName("TipoVehiculo");
+                    String tipoVehiculo = null;
+                    for (int j = 0; j < tipoVehiculoNodeList.getLength(); j++) {
+                        Node tipoVehiculoNode = tipoVehiculoNodeList.item(j);
+                        if (tipoVehiculoNode.getNodeType() == Node.ELEMENT_NODE) {
+                            Element tipoVehiculoElement = (Element) tipoVehiculoNode;
+                            if (tipoVehiculoElement.getAttribute("idTipo").equals(idTipo)) {
+                                tipoVehiculo = tipoVehiculoElement.getElementsByTagName("tipo").item(0)
+                                        .getTextContent();
+                                break;
+                            }
+                        }
+                    }
+
+                    System.out.println("");
+                    System.out
+                            .println("(" + idVehiculo + ") Vehiculo tipo" + tipoVehiculo + " - matricula '" + matricula
+                                    + "', marca '" + marca + "', modelo '" + modelo + "', año '" + anoFabricacion
+                                    + "', precio '" + precio + "', es de '" + nombrePropietario + " "
+                                    + apellidoPropietario + "'");
+                }
+            }
         }
     }
 
@@ -186,7 +290,6 @@ public class XmlGenerator {
         try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
             DOMSource source = new DOMSource(document);
@@ -275,8 +378,15 @@ public class XmlGenerator {
                 updateElementIfChanged(vehiculoElement, "modelo", vehiculo.getModelo());
                 updateElementIfChanged(vehiculoElement, "añoFabricacion", String.valueOf(vehiculo.getAñoFabricacion()));
                 updateElementIfChanged(vehiculoElement, "precio", vehiculo.getPrecio().toString());
-                updateElementIfChanged(vehiculoElement, "idPropietario",
-                        String.valueOf(vehiculo.getPropietario().getIdPropietario()));
+
+                if (vehiculo.getPropietario() == null) {
+                    updateElementIfChanged(vehiculoElement, "idPropietario",
+                            "null");
+                } else {
+                    updateElementIfChanged(vehiculoElement, "idPropietario",
+                            String.valueOf(vehiculo.getPropietario().getIdPropietario()));
+                }
+
                 updateElementIfChanged(vehiculoElement, "idTipo", String.valueOf(vehiculo.getTipo().getIdTipo()));
             }
             // Eliminar vehiculo que no existen en la lista
@@ -302,7 +412,7 @@ public class XmlGenerator {
             removeElementsNotInList(propietariosNodeList, propietarios, "Propietario", "idPropietario");
 
             // Sincronizar HistorialMantenimiento
-            Element historialMantenimientoElement = getOrCreateElement(rootElement, "HistorialMantenimiento");
+            Element historialMantenimientoElement = getOrCreateElement(rootElement, "HistorialMantenimientos");
             NodeList historialMantenimientoNodeList = historialMantenimientoElement
                     .getElementsByTagName("HistorialMantenimiento");
             for (HistorialMantenimiento historial : historiales) {
@@ -349,7 +459,7 @@ public class XmlGenerator {
     }
 
     private String formatDate(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(date);
     }
 }
